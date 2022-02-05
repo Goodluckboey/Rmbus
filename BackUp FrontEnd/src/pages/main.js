@@ -7,7 +7,6 @@ import axios from "axios";
 import userContext from "../context/userContext";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Speech from "react-speech";
-import { useSpeechSynthesis } from "react-speech-kit";
 
 const Main = () => {
   // INITIALIZING CODES; CONTEXT, STATES, HISTORY, PARAMS =============================================================
@@ -15,24 +14,16 @@ const Main = () => {
   const callAndSetUserId = useContext(userContext);
   const setUserId = callAndSetUserId.setUserId;
   const userid = callAndSetUserId.userId;
-  const [userTranscript, setUserTranscript] = useState("");
-  const [botResponse, setBotResponse] = useState("");
 
-  // >>>> To Enable Text to Speech return
-  const { speak } = useSpeechSynthesis();
+  const [userTranscript, setUserTranscript] = useState("");
 
   // >>>> To Let App know when LISTENING has stopped
   const [stopped, setStopped] = useState(false);
   const [allUserReqs, setAllUserReqs] = useState();
-  const [botReady, setBotReady] = useState(0);
 
   let history = useHistory();
 
-  // USE EFFECTS =============================================================
-
-  useEffect(() => {
-    speak({ text: botResponse });
-  }, [botReady]);
+  // USEEFFECTS =============================================================
 
   // >>>> set Eternal Login for Testing purposes
   useEffect(() => {
@@ -42,8 +33,6 @@ const Main = () => {
 
   // >>>> To Send Data to DB, and Reset the transcript once LISTENING has stopped
   useEffect(() => {
-    botCommands();
-
     if (stopped) {
       handleSendRequest();
       resetTranscript();
@@ -57,7 +46,6 @@ const Main = () => {
 
   useEffect(() => {
     setUserTranscript(transcript);
-    console.log("botResponse: ", botResponse);
   }, [transcript]);
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -95,7 +83,6 @@ const Main = () => {
   // Minor Handles ============================================================
   const handleLogout = () => {
     setUserId("");
-    stopListening();
     return history.push(`/`);
   };
 
@@ -119,14 +106,6 @@ const Main = () => {
     console.log(`{${userTranscript}}`, "has been Sent!");
   };
 
-  const autoStopListening = () => {
-    setIsListening(false);
-    microphoneRef.current.classList.remove("listening");
-    SpeechRecognition.stopListening();
-    setStopped(true);
-    console.log(`{${userTranscript}}`, "has been Sent!");
-  };
-
   // >>>> To Begin Listening
   const handleListing = () => {
     setStopped(false);
@@ -137,17 +116,6 @@ const Main = () => {
       continuous: true,
     });
     setTimeout(stopListening, 3500);
-  };
-
-  const autoHandleListing = () => {
-    setStopped(false);
-    resetTranscript();
-    setIsListening(true);
-    microphoneRef.current.classList.add("listening");
-    SpeechRecognition.startListening({
-      continuous: true,
-    });
-    setTimeout(autoStopListening, 3500);
   };
 
   // GLOBAL CODES ===================================================================
@@ -163,39 +131,18 @@ const Main = () => {
     }
   }
 
-  // BOT COMMANDS ===================================================================
+  console.log(
+    "Speech: ",
+    <Speech text={`${userTranscript}`} voice="Google UK English Male" />
+  );
 
-  const botCommands = () => {
-    if (userTranscript.toLowerCase().includes("hello")) {
-      setBotResponse("Good afternoon sir, How is your day?");
-      setBotReady(botReady + 1);
-      handleListing();
-    } else if (userTranscript.toLowerCase().includes("weather")) {
-      setBotResponse("It's not that good today, is it?");
-      setBotReady(botReady + 1);
-    } else if (userTranscript.toLowerCase().includes("evening")) {
-      setBotResponse("Good evening sir, how has your day been?");
-      setBotReady(botReady + 1);
-      handleListing();
-    } else if (userTranscript.toLowerCase().includes("goodbye")) {
-      setBotResponse("ah, leaving so soon sir?");
-      setBotReady(botReady + 1);
-    } else if (userTranscript.toLowerCase().includes("not good")) {
-      setBotResponse("thats a pity sir, anything i can do to help?");
-      setBotReady(botReady + 1);
-      handleListing();
-    } else if (
-      userTranscript.toLowerCase().includes("good") &&
-      userTranscript.toLowerCase().includes("about you") &&
-      (botResponse === "Good afternoon sir, How is your day?" ||
-        botResponse === "Good evening sir, how has your day been?")
-    ) {
-      setBotResponse(
-        "Thats great to hear sir! My day has been fantastic. Nothing happened actually"
-      );
-      setBotReady(botReady + 1);
-    }
-  };
+  // console.log(
+  //   typeof (
+  //     <Speech text={`${userTranscript}`} voice="Google UK English Male">
+
+  //     </Speech>
+  //   )
+  // );
 
   return (
     <div className="microphone-wrapper">
@@ -221,6 +168,12 @@ const Main = () => {
           </button>
         )}
       </div>
+      <Speech text={`${userTranscript}`} voice="Google UK English Male">
+        {
+          (<Speech text={`${userTranscript}`} voice="Google UK English Male" />)
+            .type.prototype
+        }
+      </Speech>
       {transcript && (
         <div className="microphone-result-container">
           <ul className="microphone-result-text">
