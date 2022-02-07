@@ -12,9 +12,10 @@ import { useSpeechSynthesis } from "react-speech-kit";
 const Main = () => {
   // INITIALIZING CODES; CONTEXT, STATES, HISTORY, PARAMS =============================================================
 
-  const callAndSetUserId = useContext(userContext);
-  const setUserId = callAndSetUserId.setUserId;
-  const userid = callAndSetUserId.userId;
+  const assignedUserData = useContext(userContext);
+  const setUserId = assignedUserData.setUserId;
+  const userid = assignedUserData.userId;
+  const botName = assignedUserData.botName;
   const [userTranscript, setUserTranscript] = useState("");
   const [botResponse, setBotResponse] = useState("");
 
@@ -35,28 +36,32 @@ const Main = () => {
   // USE EFFECTS =============================================================
 
   useEffect(() => {
-    if (botReady != true) {
-      stopListening();
-      speak({ text: botResponse });
-      setBotReady(false);
-      setBotReady(false);
-    }
-  }, [botReady]);
-
-  // >>>> set Eternal Login for Testing purposes
-  useEffect(() => {
-    setUserId("61fba1b8b6a1344d4a6ee8c6");
-    handleGetRequest();
+    handleListing();
+    console.log("constantly listening");
+    console.log(userTranscript);
   }, []);
 
+  // useEffect(() => {
+  //   if (botReady != true) {
+  //     stopListening();
+  //     speak({ text: botResponse });
+  //     setBotReady(false);
+  //   }
+  // }, [botReady]);
+
+  // >>>> set Eternal Login for Testing purposes
+  // useEffect(() => {
+  //   setUserId("61fba1b8b6a1344d4a6ee8c6");
+  //   handleGetRequest();
+  // }, []);
+
   // >>>> To Send Data to DB, and Reset the transcript once LISTENING has stopped
-  useEffect(() => {
-    if (stopped) {
-      handleGetRequest();
-      setBotReady(false);
-      setBotReady(false);
-    }
-  }, [stopped]);
+  // useEffect(() => {
+  //   if (stopped) {
+  //     handleGetRequest();
+  //     setBotReady(false);
+  //   }
+  // }, [stopped]);
 
   // useEffect(() => {
   //   if (stopped != true) {
@@ -71,7 +76,7 @@ const Main = () => {
   useEffect(() => {
     setUserTranscript(transcript);
     setUserTranscript(transcript);
-    // console.log("botResponse: ", botResponse);
+    console.log(userTranscript);
   }, [transcript]);
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -90,7 +95,6 @@ const Main = () => {
     const endpoint = `http://localhost:5000/main/${userid}/`;
     try {
       const res = await axios.put(endpoint, userTranscript);
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +103,7 @@ const Main = () => {
   // >>>> To GET Request Data from DB based on user
   const handleGetRequest = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/requests/${userid}`);
+      const res = await axios.get(`http://localhost:5000/botName/${userid}`);
     } catch (err) {
       // console.log(err);
     }
@@ -139,9 +143,8 @@ const Main = () => {
     setIsListening(false);
     microphoneRef.current.classList.remove("listening");
     SpeechRecognition.stopListening();
-    handleSendRequest();
     setStopped(true);
-    setStopped(true);
+    // handleSendRequest();
   };
 
   // >>>> To Begin Listening
@@ -153,8 +156,8 @@ const Main = () => {
     SpeechRecognition.startListening({
       continuous: true,
     });
-    setTimeout(stopListening, 2000);
-    setReqDelete(false);
+    // setTimeout(stopListening, 2000);
+    // setReqDelete(false);
   };
 
   // GLOBAL CODES ===================================================================
@@ -214,7 +217,23 @@ const Main = () => {
   // }
 
   // BOT COMMANDS ==================================================================
+
+  // Eternal Commands
+  const eternalCommand = () => {
+    console.log(">>>>>>");
+    console.log(botName);
+    console.log(typeof botName);
+    if (
+      transcript.toLowerCase().includes(botName) &&
+      transcript.toLowerCase().includes("hello")
+    ) {
+      botCommandsGRP1();
+    }
+  };
+
   const botCommandsGRP1 = () => {
+    resetTranscript();
+    setUserTranscript(transcript);
     if (botResponse != true) {
       if (userTranscript.includes("destroy")) {
         // resetTranscript();
@@ -229,7 +248,6 @@ const Main = () => {
         setBotResponse("Hey there, it's nice to meet you");
         setBotReady(true);
         setUserTranscript("");
-        // autoHandleListing();
       } else if (userTranscript.toLowerCase().includes("weather")) {
         setBotResponse("I think it'll be sunny today");
         setBotReady(true);
@@ -238,7 +256,6 @@ const Main = () => {
         setBotResponse("Good evening, how has your day been?");
         setBotReady(true);
         setUserTranscript("");
-        // autoHandleListing();
       } else if (userTranscript.toLowerCase().includes("goodbye")) {
         setBotResponse("It's been a pleasure");
         setBotReady(true);
@@ -247,20 +264,18 @@ const Main = () => {
         setBotResponse(`${todayTime}`);
         setBotReady(true);
         setUserTranscript("");
-        // autoHandleListing();
       } else if (userTranscript.toLowerCase().includes("date")) {
         setBotResponse(`The date today is ${todayDate}`);
         setBotReady(true);
         setUserTranscript("");
-        // autoHandleListing();
       }
     }
-    // autoHandleListing();
   };
 
   let printedResponse = botResponse;
+  // handleGetRequest();
+  eternalCommand();
 
-  botCommandsGRP1();
   return (
     <div className="microphone-wrapper">
       <button onClick={handleLogout}>Logout</button>
@@ -287,8 +302,8 @@ const Main = () => {
       </div>
       <div className="microphone-result-container">
         <ul className="microphone-result-text">
-          <p>{transcript}</p>
-          <h4>{printedResponse}</h4>
+          {/* <p>{transcript}</p>
+          <h4>{printedResponse}</h4> */}
         </ul>
       </div>
       {transcript && (

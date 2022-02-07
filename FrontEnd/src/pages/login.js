@@ -19,9 +19,10 @@ const Login = () => {
     Password: "",
   });
 
-  const callAndSetUserId = useContext(userContext);
-  const setUserId = callAndSetUserId.setUserId;
-  const userId = callAndSetUserId.userId;
+  const assignedUserData = useContext(userContext);
+  const setUserId = assignedUserData.setUserId;
+  const userId = assignedUserData.userId;
+  const setBotName = assignedUserData.setBotName;
   let history = useHistory();
 
   useEffect(() => {
@@ -41,7 +42,9 @@ const Login = () => {
     axios.post("http://localhost:5000/login", userLogin).then((res) => {
       if (res.data.valid) {
         console.log(res.data.user._id);
+        console.log(res.data.user.botName);
         setUserId(res.data.user._id);
+        setBotName(res.data.user.botName);
       } else if (res.data.valid != true) {
         alert("Wrong username or password");
         console.log("test");

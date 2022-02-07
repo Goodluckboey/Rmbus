@@ -77,9 +77,22 @@ app.delete("/deleteRequests/:userid/", async (req, res) => {
 //Display All Requests
 app.get("/requests/:userid", async (req, res) => {
   try {
+    const userData = await User.find({
+      _id: req.params.userid,
+    });
+    res.json(userData);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+//Display Account botName
+app.get("/botName/:userid", async (req, res) => {
+  try {
     const userRequests = await User.find({
       _id: req.params.userid,
     });
+    console.log(userRequests);
     res.json(userRequests);
   } catch (err) {
     res.json(err);

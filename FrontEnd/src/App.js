@@ -3,16 +3,20 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Registration from "./pages/registration";
 import Front from "./pages/front";
 import Main from "./pages/main";
+// import Main from "./pages/newmain";
 import userContext from "./context/userContext";
 import Login from "./pages/login";
 
 function App() {
   const [userId, setUserId] = useState();
+  const [botName, setBotName] = useState();
   return (
     <div>
       <BrowserRouter>
         <Switch>
-          <userContext.Provider value={{ userId, setUserId }}>
+          <userContext.Provider
+            value={{ userId, setUserId, botName, setBotName }}
+          >
             <Route exact path="/">
               <Front></Front>
             </Route>
