@@ -27,6 +27,7 @@ const Main = () => {
   const [stopped, setStopped] = useState(false);
   const [botReady, setBotReady] = useState(false);
   const [reqDelete, setReqDelete] = useState(false);
+  const [weather, setWeather] = useState("");
 
   let history = useHistory();
 
@@ -123,7 +124,8 @@ const Main = () => {
         `https://goweather.herokuapp.com/weather/singapore`
       );
       console.log("weather: ", res.data.description);
-      weather = res.data.description;
+      setWeather(res.data.description);
+      setWeather(res.data.description);
     } catch (err) {
       // console.log(err);
     }
@@ -185,7 +187,6 @@ const Main = () => {
   // GLOBAL CODES ===================================================================
 
   // >>>> Time And Date Functions
-  let weather = "";
   let today = new Date();
   let month = today.getMonth() + 1;
   const monthList = [
@@ -238,9 +239,13 @@ const Main = () => {
         }
       }
       if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
+        if (greet === false) {
+          handleWeather();
+        }
         setBotResponse(
           "Well Hello there, it's nice to meet you. How can i help?"
         );
+
         setBotReady(true);
         resetTranscript();
         setUserTranscript("");
@@ -257,10 +262,8 @@ const Main = () => {
           setUserTranscript("");
         }
         if (userTranscript.toLowerCase().includes("weather")) {
-          handleWeather();
-          setBotResponse("Let me pull up my newspaper..");
           setBotResponse(
-            `Ah.. my newspaper says it'll be ${weather} in Singapore today`
+            `My newspaper says it'll be ${weather} in Singapore today`
           );
           setBotReady(true);
           resetTranscript();
@@ -287,6 +290,12 @@ const Main = () => {
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("date")) {
           setBotResponse(`The date today is ${todayDate}.`);
+          setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
+          setUserTranscript("");
+        } else if (userTranscript.toLowerCase().includes("thank you")) {
+          setBotResponse(`You're very welcome.`);
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
