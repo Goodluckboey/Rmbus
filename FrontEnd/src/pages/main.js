@@ -117,6 +117,18 @@ const Main = () => {
     }
   };
 
+  const handleWeather = async () => {
+    try {
+      const res = await axios.get(
+        `https://goweather.herokuapp.com/weather/singapore`
+      );
+      console.log("weather: ", res.data.description);
+      weather = res.data.description;
+    } catch (err) {
+      // console.log(err);
+    }
+  };
+
   // Minor Handles ============================================================
   const handleLogout = () => {
     setUserId("");
@@ -146,7 +158,7 @@ const Main = () => {
   };
 
   // >>>> To Begin Listening
-  const handleListing = (timeOut) => {
+  const handleListing = () => {
     setStopped(false);
     resetTranscript();
     setIsListening(true);
@@ -154,7 +166,7 @@ const Main = () => {
     SpeechRecognition.startListening({
       continuous: true,
     });
-    setTimeout(stopListening, timeOut);
+    // setTimeout(stopListening, timeOut);
     setReqDelete(false);
   };
 
@@ -166,13 +178,14 @@ const Main = () => {
     SpeechRecognition.startListening({
       continuous: true,
     });
-    setTimeout(stopListening, 8000);
+    // setTimeout(stopListening, 8000);
     setReqDelete(false);
   };
 
   // GLOBAL CODES ===================================================================
 
   // >>>> Time And Date Functions
+  let weather = "";
   let today = new Date();
   let month = today.getMonth() + 1;
   const monthList = [
@@ -228,36 +241,55 @@ const Main = () => {
         setBotResponse(
           "Well Hello there, it's nice to meet you. How can i help?"
         );
-
-        if (greet) {
-          setBotResponse("Didnt you greet me earlier?");
-        }
-
         setBotReady(true);
+        resetTranscript();
+        setUserTranscript("");
         setUserTranscript("");
         setGreet(true);
       }
 
       if (greet) {
-        if (userTranscript.toLowerCase().includes("weather")) {
-          setBotResponse("I think it'll be sunny today");
+        if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
+          setBotResponse("Didnt you greet me earlier?");
           setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
+          setUserTranscript("");
+        }
+        if (userTranscript.toLowerCase().includes("weather")) {
+          handleWeather();
+          setBotResponse("Let me pull up my newspaper..");
+          setBotResponse(
+            `Ah.. my newspaper says it'll be ${weather} in Singapore today`
+          );
+          setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("evening")) {
           setBotResponse("Good evening, how has your day been?");
           setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("goodbye")) {
-          setBotResponse("It's been a pleasure");
+          setBotResponse("It's been a pleasure.");
           setBotReady(true);
+          resetTranscript();
           setUserTranscript("");
+          setUserTranscript("");
+          stopListening();
         } else if (userTranscript.toLowerCase().includes("time")) {
           setBotResponse(`${todayTime}`);
           setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("date")) {
-          setBotResponse(`The date today is ${todayDate}`);
+          setBotResponse(`The date today is ${todayDate}.`);
           setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
           setUserTranscript("");
         }
       }
