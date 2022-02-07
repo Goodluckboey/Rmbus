@@ -46,7 +46,7 @@ const Main = () => {
 
   // >>>> set Eternal Login for Testing purposes
   useEffect(() => {
-    setUserId("61fba1b8b6a1344d4a6ee8c6");
+    // setUserId("61fba1b8b6a1344d4a6ee8c6");
     handleGetRequest();
     handleListing(6000);
   }, []);
@@ -123,9 +123,9 @@ const Main = () => {
       const res = await axios.get(
         `https://goweather.herokuapp.com/weather/singapore`
       );
-      console.log("weather: ", res.data.description);
-      setWeather(res.data.description);
-      setWeather(res.data.description);
+      console.log("weather: ", res.data);
+      setWeather(res.data);
+      setWeather(res.data);
     } catch (err) {
       // console.log(err);
     }
@@ -154,7 +154,7 @@ const Main = () => {
     setIsListening(false);
     microphoneRef.current.classList.remove("listening");
     SpeechRecognition.stopListening();
-    handleSendRequest();
+    // handleSendRequest();
     setStopped(true);
     setStopped(true);
   };
@@ -243,9 +243,8 @@ const Main = () => {
           handleWeather();
         }
         setBotResponse(
-          "Well Hello there, it's nice to meet you. How can i help?"
+          `Well Hello there! It's nice to meet you. My name is ${botName}, How can i help?`
         );
-
         setBotReady(true);
         resetTranscript();
         setUserTranscript("");
@@ -256,50 +255,76 @@ const Main = () => {
       if (greet) {
         if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
           setBotResponse("Didnt you greet me earlier?");
+          handleSendRequest();
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
-        }
-        if (userTranscript.toLowerCase().includes("weather")) {
+        } else if (userTranscript.toLowerCase().includes("weather")) {
           setBotResponse(
-            `My newspaper says it'll be ${weather} in Singapore today`
+            `My newspaper says it'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`
           );
+          handleSendRequest();
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("evening")) {
+          handleSendRequest();
           setBotResponse("Good evening, how has your day been?");
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("goodbye")) {
+          handleSendRequest();
           setBotResponse("It's been a pleasure.");
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
           stopListening();
+          stopListening();
         } else if (userTranscript.toLowerCase().includes("time")) {
           setBotResponse(`${todayTime}`);
+          handleSendRequest();
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("date")) {
+          handleSendRequest();
           setBotResponse(`The date today is ${todayDate}.`);
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
         } else if (userTranscript.toLowerCase().includes("thank you")) {
+          handleSendRequest();
           setBotResponse(`You're very welcome.`);
           setBotReady(true);
           resetTranscript();
           setUserTranscript("");
           setUserTranscript("");
+        } else if (
+          userTranscript.toLowerCase().includes("log") &&
+          userTranscript.toLowerCase().includes("out")
+        ) {
+          handleSendRequest();
+          setBotResponse(`Goodbye! See you soon.`);
+          setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
+          setUserTranscript("");
+          handleLogout();
+        } else if (userTranscript.toLowerCase().includes("find me a picture")) {
+          handleSendRequest();
+          setBotResponse(`Of course, what would you like me to find?`);
+          setBotReady(true);
+          resetTranscript();
+          setUserTranscript("");
+          setUserTranscript("");
+          handleLogout();
         }
       }
     }
