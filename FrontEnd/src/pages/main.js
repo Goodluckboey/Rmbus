@@ -15,16 +15,16 @@ const Main = () => {
   const callAndSetUserId = useContext(userContext);
   const setUserId = callAndSetUserId.setUserId;
   const userid = callAndSetUserId.userId;
+  const botName = callAndSetUserId.botName;
   const [userTranscript, setUserTranscript] = useState("");
   const [botResponse, setBotResponse] = useState("");
+  const [greet, setGreet] = useState(false);
 
   // >>>> To Enable Text to Speech return
   const { speak } = useSpeechSynthesis();
 
   // >>>> To Let App know when LISTENING has stopped
   const [stopped, setStopped] = useState(false);
-  const [autostopped, setAutoStopped] = useState(false);
-  const [allUserReqs, setAllUserReqs] = useState();
   const [botReady, setBotReady] = useState(false);
   const [reqDelete, setReqDelete] = useState(false);
 
@@ -35,8 +35,8 @@ const Main = () => {
   // USE EFFECTS =============================================================
 
   useEffect(() => {
-    if (botReady != true) {
-      stopListening();
+    if (botReady === true) {
+      // stopListening();
       speak({ text: botResponse });
       setBotReady(false);
       setBotReady(false);
@@ -47,6 +47,7 @@ const Main = () => {
   useEffect(() => {
     setUserId("61fba1b8b6a1344d4a6ee8c6");
     handleGetRequest();
+    handleListing(6000);
   }, []);
 
   // >>>> To Send Data to DB, and Reset the transcript once LISTENING has stopped
@@ -145,7 +146,7 @@ const Main = () => {
   };
 
   // >>>> To Begin Listening
-  const handleListing = () => {
+  const handleListing = (timeOut) => {
     setStopped(false);
     resetTranscript();
     setIsListening(true);
@@ -153,7 +154,19 @@ const Main = () => {
     SpeechRecognition.startListening({
       continuous: true,
     });
-    setTimeout(stopListening, 2000);
+    setTimeout(stopListening, timeOut);
+    setReqDelete(false);
+  };
+
+  const innerListening = () => {
+    setStopped(false);
+    resetTranscript();
+    setIsListening(true);
+    microphoneRef.current.classList.add("listening");
+    SpeechRecognition.startListening({
+      continuous: true,
+    });
+    setTimeout(stopListening, 8000);
     setReqDelete(false);
   };
 
@@ -190,9 +203,6 @@ const Main = () => {
   let timeDetermine = "AM";
   let minutes = today.getMinutes();
   const rightTime = () => {
-    // if ((hours = "0")) {
-    //   hours = 12;
-    // }
     if (hours > 12) {
       hours -= 12;
       timeDetermine = "PM";
@@ -201,17 +211,6 @@ const Main = () => {
   rightTime();
   let todayTime = `The time now is ${hours} ${minutes} ${timeDetermine}`;
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-  // >>>> Commands to control activities
-  // if (userTranscript.includes("reset")) {
-  //   resetTranscript();
-  //   handleListing();
-  // }
-  // if (isListening) {
-  //   if (userTranscript.includes("terminate")) {
-  //     stopHandle();
-  //   }
-  // }
 
   // BOT COMMANDS ==================================================================
   const botCommandsGRP1 = () => {
@@ -225,37 +224,44 @@ const Main = () => {
           resetTranscript();
         }
       }
-      if (userTranscript.toLowerCase().includes("hello")) {
-        setBotResponse("Hey there, it's nice to meet you");
+      if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
+        setBotResponse(
+          "Well Hello there, it's nice to meet you. How can i help?"
+        );
+
+        if (greet) {
+          setBotResponse("Didnt you greet me earlier?");
+        }
+
         setBotReady(true);
         setUserTranscript("");
-        // autoHandleListing();
-      } else if (userTranscript.toLowerCase().includes("weather")) {
-        setBotResponse("I think it'll be sunny today");
-        setBotReady(true);
-        setUserTranscript("");
-      } else if (userTranscript.toLowerCase().includes("evening")) {
-        setBotResponse("Good evening, how has your day been?");
-        setBotReady(true);
-        setUserTranscript("");
-        // autoHandleListing();
-      } else if (userTranscript.toLowerCase().includes("goodbye")) {
-        setBotResponse("It's been a pleasure");
-        setBotReady(true);
-        setUserTranscript("");
-      } else if (userTranscript.toLowerCase().includes("time")) {
-        setBotResponse(`${todayTime}`);
-        setBotReady(true);
-        setUserTranscript("");
-        // autoHandleListing();
-      } else if (userTranscript.toLowerCase().includes("date")) {
-        setBotResponse(`The date today is ${todayDate}`);
-        setBotReady(true);
-        setUserTranscript("");
-        // autoHandleListing();
+        setGreet(true);
+      }
+
+      if (greet) {
+        if (userTranscript.toLowerCase().includes("weather")) {
+          setBotResponse("I think it'll be sunny today");
+          setBotReady(true);
+          setUserTranscript("");
+        } else if (userTranscript.toLowerCase().includes("evening")) {
+          setBotResponse("Good evening, how has your day been?");
+          setBotReady(true);
+          setUserTranscript("");
+        } else if (userTranscript.toLowerCase().includes("goodbye")) {
+          setBotResponse("It's been a pleasure");
+          setBotReady(true);
+          setUserTranscript("");
+        } else if (userTranscript.toLowerCase().includes("time")) {
+          setBotResponse(`${todayTime}`);
+          setBotReady(true);
+          setUserTranscript("");
+        } else if (userTranscript.toLowerCase().includes("date")) {
+          setBotResponse(`The date today is ${todayDate}`);
+          setBotReady(true);
+          setUserTranscript("");
+        }
       }
     }
-    // autoHandleListing();
   };
 
   let printedResponse = botResponse;

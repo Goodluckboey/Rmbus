@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Registration from "./pages/registration";
 import Front from "./pages/front";
 import Main from "./pages/main";
-// import Main from "./pages/newmain";
 import userContext from "./context/userContext";
 import Login from "./pages/login";
 
