@@ -44,6 +44,7 @@ const Login = () => {
         setUserId(res.data.user._id);
       } else if (res.data.valid != true) {
         alert("Wrong username or password");
+        console.log("test");
       } else {
         console.log("In Between");
       }

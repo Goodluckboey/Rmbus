@@ -23,15 +23,23 @@ const Main = () => {
 
   // >>>> To Let App know when LISTENING has stopped
   const [stopped, setStopped] = useState(false);
+  const [autostopped, setAutoStopped] = useState(false);
   const [allUserReqs, setAllUserReqs] = useState();
-  const [botReady, setBotReady] = useState(0);
+  const [botReady, setBotReady] = useState(false);
+  const [reqDelete, setReqDelete] = useState(false);
 
   let history = useHistory();
+
+  const voices = speechSynthesis.getVoices();
 
   // USE EFFECTS =============================================================
 
   useEffect(() => {
-    speak({ text: botResponse });
+    if (botReady != true) {
+      stopListening();
+      speak({ text: botResponse });
+      setBotReady(false);
+    }
   }, [botReady]);
 
   // >>>> set Eternal Login for Testing purposes
@@ -42,14 +50,17 @@ const Main = () => {
 
   // >>>> To Send Data to DB, and Reset the transcript once LISTENING has stopped
   useEffect(() => {
-    botCommands();
-
     if (stopped) {
-      handleSendRequest();
-      resetTranscript();
       handleGetRequest();
+      setBotReady(false);
     }
   }, [stopped]);
+
+  useEffect(() => {
+    // if (stopped != true) {
+    //   handleSendRequest();
+    // }
+  }, [userTranscript]);
 
   let { transcript, resetTranscript } = useSpeechRecognition();
   const [isListening, setIsListening] = useState(false);
@@ -76,7 +87,7 @@ const Main = () => {
     const endpoint = `http://localhost:5000/main/${userid}/`;
     try {
       const res = await axios.put(endpoint, userTranscript);
-      console.log("res: ", res);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -86,12 +97,22 @@ const Main = () => {
   const handleGetRequest = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/requests/${userid}`);
-      setAllUserReqs(res.data);
-      // console.log(allUserReqs);
     } catch (err) {
       // console.log(err);
     }
   };
+
+  // >>>> To DELETE Request Data from DB based on user
+  const handleClearRequests = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/deleteRequests/${userid}`
+      );
+    } catch (err) {
+      // console.log(err);
+    }
+  };
+
   // Minor Handles ============================================================
   const handleLogout = () => {
     setUserId("");
@@ -116,15 +137,7 @@ const Main = () => {
     microphoneRef.current.classList.remove("listening");
     SpeechRecognition.stopListening();
     setStopped(true);
-    console.log(`{${userTranscript}}`, "has been Sent!");
-  };
-
-  const autoStopListening = () => {
-    setIsListening(false);
-    microphoneRef.current.classList.remove("listening");
-    SpeechRecognition.stopListening();
-    setStopped(true);
-    console.log(`{${userTranscript}}`, "has been Sent!");
+    handleSendRequest();
   };
 
   // >>>> To Begin Listening
@@ -136,67 +149,118 @@ const Main = () => {
     SpeechRecognition.startListening({
       continuous: true,
     });
-    setTimeout(stopListening, 3500);
-  };
-
-  const autoHandleListing = () => {
-    setStopped(false);
-    resetTranscript();
-    setIsListening(true);
-    microphoneRef.current.classList.add("listening");
-    SpeechRecognition.startListening({
-      continuous: true,
-    });
-    setTimeout(autoStopListening, 3500);
+    setTimeout(stopListening, 2000);
   };
 
   // GLOBAL CODES ===================================================================
 
+  // >>>> Time And Date Functions
+  let today = new Date();
+  let month = today.getMonth() + 1;
+  const monthList = [
+    "january",
+    "febuary",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    " november",
+    "december",
+  ];
+  const monthFunction = () => {
+    for (let i = 1; i < monthList.length; i++) {
+      if (i === month) {
+        month = monthList[i];
+      }
+    }
+  };
+  monthFunction();
+  let todayDate =
+    "day " + today.getDate() + " of " + month + ", " + today.getFullYear();
+  let hours = today.getHours();
+  let timeDetermine = "AM";
+  let minutes = today.getMinutes();
+  const rightTime = () => {
+    // if ((hours = "0")) {
+    //   hours = 12;
+    // }
+    if (hours > 12) {
+      hours -= 12;
+      timeDetermine = "PM";
+    }
+  };
+  rightTime();
+  let todayTime = `The time now is ${hours} ${minutes} ${timeDetermine}`;
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
   // >>>> Commands to control activities
-  if (userTranscript.includes("reset")) {
-    resetTranscript();
-    handleListing();
-  }
-  if (isListening) {
-    if (userTranscript.includes("terminate")) {
-      stopHandle();
+  if (userTranscript.includes("destroy")) {
+    // resetTranscript();
+    if (reqDelete === false) {
+      handleClearRequests();
+      setReqDelete(true);
+      resetTranscript();
     }
   }
+  // if (userTranscript.includes("reset")) {
+  //   resetTranscript();
+  //   handleListing();
+  // }
+  // if (isListening) {
+  //   if (userTranscript.includes("terminate")) {
+  //     stopHandle();
+  //   }
+  // }
 
   // BOT COMMANDS ===================================================================
 
-  const botCommands = () => {
-    if (userTranscript.toLowerCase().includes("hello")) {
-      setBotResponse("Good afternoon sir, How is your day?");
-      setBotReady(botReady + 1);
-      handleListing();
-    } else if (userTranscript.toLowerCase().includes("weather")) {
-      setBotResponse("It's not that good today, is it?");
-      setBotReady(botReady + 1);
-    } else if (userTranscript.toLowerCase().includes("evening")) {
-      setBotResponse("Good evening sir, how has your day been?");
-      setBotReady(botReady + 1);
-      handleListing();
-    } else if (userTranscript.toLowerCase().includes("goodbye")) {
-      setBotResponse("ah, leaving so soon sir?");
-      setBotReady(botReady + 1);
-    } else if (userTranscript.toLowerCase().includes("not good")) {
-      setBotResponse("thats a pity sir, anything i can do to help?");
-      setBotReady(botReady + 1);
-      handleListing();
-    } else if (
-      userTranscript.toLowerCase().includes("good") &&
-      userTranscript.toLowerCase().includes("about you") &&
-      (botResponse === "Good afternoon sir, How is your day?" ||
-        botResponse === "Good evening sir, how has your day been?")
-    ) {
-      setBotResponse(
-        "Thats great to hear sir! My day has been fantastic. Nothing happened actually"
-      );
-      setBotReady(botReady + 1);
+  /*
+BotRespond_1, restart listening BUT autoStop, autostop does not make new speak()
+
+  */
+
+  const botCommandsGRP1 = () => {
+    if (botResponse != true) {
+      if (userTranscript.toLowerCase().includes("hello")) {
+        setBotResponse("Hey there, it's nice to meet you");
+        setBotReady(true);
+        setUserTranscript("");
+        // autoHandleListing();
+      } else if (userTranscript.toLowerCase().includes("weather")) {
+        setBotResponse("I think it'll be sunny today");
+        setBotReady(true);
+        setUserTranscript("");
+      } else if (userTranscript.toLowerCase().includes("evening")) {
+        setBotResponse("Good evening, how has your day been?");
+        setBotReady(true);
+        setUserTranscript("");
+        // autoHandleListing();
+      } else if (userTranscript.toLowerCase().includes("goodbye")) {
+        setBotResponse("It's been a pleasure");
+        setBotReady(true);
+        setUserTranscript("");
+      } else if (userTranscript.toLowerCase().includes("time")) {
+        setBotResponse(`${todayTime}`);
+        setBotReady(true);
+        setUserTranscript("");
+        // autoHandleListing();
+      } else if (userTranscript.toLowerCase().includes("date")) {
+        setBotResponse(`The date today is ${todayDate}`);
+        setBotReady(true);
+        setUserTranscript("");
+        // autoHandleListing();
+      }
     }
+    // autoHandleListing();
   };
 
+  let printedResponse = botResponse;
+
+  botCommandsGRP1();
   return (
     <div className="microphone-wrapper">
       <button onClick={handleLogout}>Logout</button>
@@ -221,11 +285,14 @@ const Main = () => {
           </button>
         )}
       </div>
+      <div className="microphone-result-container">
+        <ul className="microphone-result-text">
+          <p>{transcript}</p>
+          <h4>{printedResponse}</h4>
+        </ul>
+      </div>
       {transcript && (
         <div className="microphone-result-container">
-          <ul className="microphone-result-text">
-            <p>{transcript}</p>
-          </ul>
           <button className="microphone-reset btn" onClick={handleReset}>
             Reset
           </button>

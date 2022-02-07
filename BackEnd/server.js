@@ -36,6 +36,7 @@ app.post("/registration", async (req, res) => {
 app.put("/main/:userid/", async (req, res) => {
   const userRequest = JSON.stringify(req.body).replace(/[^\w\s]/gi, "");
   if (userRequest != "") {
+    console.log("userRequest is not blank");
     try {
       const newRequest = await User.findOneAndUpdate(
         { _id: req.params.userid },
@@ -45,10 +46,31 @@ app.put("/main/:userid/", async (req, res) => {
         }
       );
       res.json(newRequest);
+      console.log("it works here");
     } catch (err) {
       // console.log(err);
       res.json(err);
     }
+  } else {
+    console.log("userRequest is blank");
+  }
+});
+
+// DELETE all of user's Requests
+app.delete("/deleteRequests/:userid/", async (req, res) => {
+  try {
+    const deleteRequests = await User.findOneAndUpdate(
+      { _id: req.params.userid },
+      { $set: { requests: [""] } }
+      // {
+      //   upsert: true,
+      // }
+    );
+    res.json(deleteRequests);
+    console.log("Deleted");
+  } catch (err) {
+    console.log(err);
+    res.json(err);
   }
 });
 
@@ -59,9 +81,6 @@ app.get("/requests/:userid", async (req, res) => {
       _id: req.params.userid,
     });
     res.json(userRequests);
-    console.log(userRequests[0].requests);
-    console.log(typeof userRequests);
-    console.log("Hello");
   } catch (err) {
     res.json(err);
   }
