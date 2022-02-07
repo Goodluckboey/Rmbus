@@ -56,11 +56,11 @@ const Main = () => {
     }
   }, [stopped]);
 
-  useEffect(() => {
-    // if (stopped != true) {
-    //   handleSendRequest();
-    // }
-  }, [userTranscript]);
+  // useEffect(() => {
+  //   if (stopped != true) {
+  //     handleSendRequest();
+  //   }
+  // }, [userTranscript]);
 
   let { transcript, resetTranscript } = useSpeechRecognition();
   const [isListening, setIsListening] = useState(false);
@@ -68,7 +68,7 @@ const Main = () => {
 
   useEffect(() => {
     setUserTranscript(transcript);
-    console.log("botResponse: ", botResponse);
+    // console.log("botResponse: ", botResponse);
   }, [transcript]);
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -150,6 +150,7 @@ const Main = () => {
       continuous: true,
     });
     setTimeout(stopListening, 2000);
+    setReqDelete(false);
   };
 
   // GLOBAL CODES ===================================================================
@@ -198,14 +199,6 @@ const Main = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   // >>>> Commands to control activities
-  if (userTranscript.includes("destroy")) {
-    // resetTranscript();
-    if (reqDelete === false) {
-      handleClearRequests();
-      setReqDelete(true);
-      resetTranscript();
-    }
-  }
   // if (userTranscript.includes("reset")) {
   //   resetTranscript();
   //   handleListing();
@@ -216,15 +209,18 @@ const Main = () => {
   //   }
   // }
 
-  // BOT COMMANDS ===================================================================
-
-  /*
-BotRespond_1, restart listening BUT autoStop, autostop does not make new speak()
-
-  */
-
+  // BOT COMMANDS ==================================================================
   const botCommandsGRP1 = () => {
     if (botResponse != true) {
+      if (userTranscript.includes("destroy")) {
+        // resetTranscript();
+        if (reqDelete === false) {
+          handleClearRequests();
+          console.log("sentClearRequests");
+          setReqDelete(true);
+          resetTranscript();
+        }
+      }
       if (userTranscript.toLowerCase().includes("hello")) {
         setBotResponse("Hey there, it's nice to meet you");
         setBotReady(true);
