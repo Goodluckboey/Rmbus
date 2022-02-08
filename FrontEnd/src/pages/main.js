@@ -52,10 +52,12 @@ const Main = () => {
     console.log(transcript);
     setUserTranscript(transcript);
     console.log("istranscriptworking");
-    setProvidedName(userTranscript);
+    // setProvidedName(userTranscript);
     if (userTranscript.length > 0) {
-      setProvidedName(userTranscript);
-      console.log("setProvidedName to Transcript");
+      if (userTranscript != "") {
+        setProvidedName(userTranscript);
+        console.log("setProvidedName to Transcript");
+      }
     }
   }, [assigningName]);
 
@@ -262,7 +264,6 @@ const Main = () => {
             }, How may I address you?`
           );
           afterEachResponse();
-          resetTranscript();
           setTimeout(setProvidedName(userTranscript), 7900);
           setGreet(true);
         }
