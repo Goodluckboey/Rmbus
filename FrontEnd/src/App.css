@@ -52,22 +52,35 @@ body {
   margin: 7px 0;
 }
 textarea {
-  width: 100%;
+  max-width: 100%;
   padding: 5px 10px;
   border: 1px solid rgb(228, 20, 20);
   outline: none;
   border-radius: 3px;
 }
 button {
-  width: 100%;
-  display: block;
-  padding: 10px 22px;
-  color: rgb(10, 10, 10);
-  font-weight: bold;
+  color: #292929;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  margin: 10px;
+  padding: 15px;
+  border: 5px solid #234668;
   cursor: pointer;
-  outline: none;
-  background: rgb(227, 240, 219);
 }
+
+button:hover {
+  background-color: #333333;
+  color: white;
+}
+
+button:focus {
+  outline: none;
+}
+
+button svg {
+  margin-right: 5px;
+}
+
 h2 {
   margin-bottom: 10px;
   text-align: center;

@@ -2,6 +2,7 @@ import React, { useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import userContext from "../context/userContext";
 import { useHistory, Link } from "react-router-dom/cjs/react-router-dom.min";
+import "../App.css";
 
 const Login = () => {
   const changeInput = (inputLogin, action) => {
@@ -48,8 +49,6 @@ const Login = () => {
       } else if (res.data.valid != true) {
         alert("Wrong username or password");
         console.log("test");
-      } else {
-        console.log("In Between");
       }
     });
   };

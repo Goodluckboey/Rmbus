@@ -1,0 +1,65 @@
+.inputbar {
+  width: 80%;
+  border-radius: 20px;
+  text-align: center;
+  margin-top: 10px;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.answerSection {
+  display: grid;
+  grid-template-columns: repeat(2, 60%);
+  justify-content: center;
+}
+
+.answerSelections {
+  width: 30vw;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  justify-content: center;
+  font-size: 18px;
+  align-self: flex-start;
+  height: 100px;
+}
+.questionText {
+  line-height: 1.6;
+  text-align: center;
+}
+.questionCount {
+  text-align: center;
+}
+
+p {
+  font-size: 18px;
+}
+
+:visited {
+  text-decoration: none;
+  color: white;
+}
+
+.submitBtn {
+  display: flex;
+  margin-top: auto;
+}
+
+.linkings {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.logo {
+  max-width: 100%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  /* margin-right: 100%; */
+}

@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     botName: { type: String, required: true },
     hash: { type: String, required: true },
     requests: [String],
+    morality: { type: Number },
   },
   { timestamps: true },
   { collection: "users" }

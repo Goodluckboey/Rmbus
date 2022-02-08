@@ -20,6 +20,9 @@ const Main = () => {
   const [botResponse, setBotResponse] = useState("");
   const [greet, setGreet] = useState(false);
 
+  const [assigningName, setAssigningName] = useState(0);
+  const [providedName, setProvidedName] = useState("");
+
   // >>>> To Enable Text to Speech return
   const { speak } = useSpeechSynthesis();
 
@@ -28,16 +31,30 @@ const Main = () => {
   const [botReady, setBotReady] = useState(false);
   const [reqDelete, setReqDelete] = useState(false);
   const [weather, setWeather] = useState("");
+  const [repeat, setRepeat] = useState("");
 
   let history = useHistory();
 
   const voices = speechSynthesis.getVoices();
 
   // USE EFFECTS =============================================================
+  const newft = () => {
+    setBotResponse(`Got it! I'll remember that. How can i help?`);
+    if (providedName.length > 0) {
+      afterEachResponse();
+    }
+  };
+
+  useEffect(() => {
+    setProvidedName(userTranscript);
+  }, [assigningName]);
+
+  useEffect(() => {
+    setTimeout(newft, 7000);
+  }, [providedName]);
 
   useEffect(() => {
     if (botReady === true) {
-      // stopListening();
       speak({ text: botResponse });
       setBotReady(false);
       setBotReady(false);
@@ -46,7 +63,6 @@ const Main = () => {
 
   // >>>> set Eternal Login for Testing purposes
   useEffect(() => {
-    // setUserId("61fba1b8b6a1344d4a6ee8c6");
     handleGetRequest();
     handleListing(6000);
   }, []);
@@ -60,12 +76,6 @@ const Main = () => {
     }
   }, [stopped]);
 
-  // useEffect(() => {
-  //   if (stopped != true) {
-  //     handleSendRequest();
-  //   }
-  // }, [userTranscript]);
-
   let { transcript, resetTranscript } = useSpeechRecognition();
   const [isListening, setIsListening] = useState(false);
   const microphoneRef = useRef(null);
@@ -73,7 +83,6 @@ const Main = () => {
   useEffect(() => {
     setUserTranscript(transcript);
     setUserTranscript(transcript);
-    // console.log("botResponse: ", botResponse);
   }, [transcript]);
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -92,7 +101,7 @@ const Main = () => {
     const endpoint = `http://localhost:5000/main/${userid}/`;
     try {
       const res = await axios.put(endpoint, userTranscript);
-      console.log(res);
+      // console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -123,12 +132,10 @@ const Main = () => {
       const res = await axios.get(
         `https://goweather.herokuapp.com/weather/singapore`
       );
-      console.log("weather: ", res.data);
+      // console.log("weather: ", res.data);
       setWeather(res.data);
       setWeather(res.data);
-    } catch (err) {
-      // console.log(err);
-    }
+    } catch (err) {}
   };
 
   // Minor Handles ============================================================
@@ -227,6 +234,15 @@ const Main = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   // BOT COMMANDS ==================================================================
+
+  const afterEachResponse = () => {
+    handleSendRequest();
+    setBotReady(true);
+    resetTranscript();
+    setUserTranscript("");
+    setUserTranscript("");
+  };
+
   const botCommandsGRP1 = () => {
     if (botResponse != true) {
       if (userTranscript.includes("destroy")) {
@@ -241,90 +257,87 @@ const Main = () => {
       if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
         if (greet === false) {
           handleWeather();
+
+          setBotResponse(
+            `Hello! My name is ${
+              botName.charAt(0).toUpperCase() + botName.slice(1)
+            }, What's your name?`
+          );
+          afterEachResponse();
+          setGreet(true);
+          setGreet(true);
         }
-        setBotResponse(
-          `Well Hello there! It's nice to meet you. My name is ${botName}, How can i help?`
-        );
-        setBotReady(true);
-        resetTranscript();
-        setUserTranscript("");
-        setUserTranscript("");
-        setGreet(true);
       }
 
       if (greet) {
-        if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
-          setBotResponse("Didnt you greet me earlier?");
-          handleSendRequest();
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-        } else if (userTranscript.toLowerCase().includes("weather")) {
-          setBotResponse(
-            `My newspaper says it'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`
-          );
-          handleSendRequest();
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-        } else if (userTranscript.toLowerCase().includes("evening")) {
-          handleSendRequest();
-          setBotResponse("Good evening, how has your day been?");
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-        } else if (userTranscript.toLowerCase().includes("goodbye")) {
-          handleSendRequest();
-          setBotResponse("It's been a pleasure.");
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-          stopListening();
-          stopListening();
-        } else if (userTranscript.toLowerCase().includes("time")) {
-          setBotResponse(`${todayTime}`);
-          handleSendRequest();
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-        } else if (userTranscript.toLowerCase().includes("date")) {
-          handleSendRequest();
-          setBotResponse(`The date today is ${todayDate}.`);
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-        } else if (userTranscript.toLowerCase().includes("thank you")) {
-          handleSendRequest();
-          setBotResponse(`You're very welcome.`);
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-        } else if (
-          userTranscript.toLowerCase().includes("log") &&
-          userTranscript.toLowerCase().includes("out")
-        ) {
-          handleSendRequest();
-          setBotResponse(`Goodbye! See you soon.`);
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-          handleLogout();
-        } else if (userTranscript.toLowerCase().includes("find me a picture")) {
-          handleSendRequest();
-          setBotResponse(`Of course, what would you like me to find?`);
-          setBotReady(true);
-          resetTranscript();
-          setUserTranscript("");
-          setUserTranscript("");
-          handleLogout();
+        if (assigningName === 0) {
+          setAssigningName(+1);
+        }
+        if (assigningName > 0) {
+          if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
+            setBotResponse(`Didnt you greet me earlier ${providedName}?`);
+            afterEachResponse();
+          } else if (userTranscript.toLowerCase().includes("weather")) {
+            setBotResponse(
+              `My newspaper says it'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`
+            );
+            afterEachResponse();
+          } else if (userTranscript.toLowerCase().includes("evening")) {
+            setBotResponse(
+              `Good evening ${providedName}, how has your day been?`
+            );
+
+            afterEachResponse();
+          } else if (userTranscript.toLowerCase().includes("goodbye")) {
+            setBotResponse(`It's been a pleasure ${providedName}.`);
+            afterEachResponse();
+            stopListening();
+            stopListening();
+          } else if (userTranscript.toLowerCase().includes("time")) {
+            setBotResponse(`${todayTime}`);
+
+            afterEachResponse();
+          } else if (userTranscript.toLowerCase().includes("date")) {
+            setBotResponse(`The date today is ${todayDate}.`);
+
+            afterEachResponse();
+          } else if (userTranscript.toLowerCase().includes("thank you")) {
+            setBotResponse(`You're very welcome ${providedName}.`);
+
+            afterEachResponse();
+          } else if (
+            userTranscript.toLowerCase().includes("log") &&
+            userTranscript.toLowerCase().includes("out")
+          ) {
+            setBotResponse(`Understood ${providedName}, Logging you out.`);
+
+            afterEachResponse();
+            handleLogout();
+          } else if (userTranscript.toLowerCase().includes("repeat")) {
+            afterEachResponse();
+          } else if (
+            userTranscript.toLowerCase().includes("find") &&
+            userTranscript.toLowerCase().includes("me")
+          ) {
+            setBotResponse(`Of course, what would you like me to find?`);
+
+            afterEachResponse();
+            if (userTranscript != "") {
+            }
+          } else if (
+            userTranscript.toLowerCase().includes("how") &&
+            userTranscript.toLowerCase().includes("you")
+          ) {
+            setBotResponse(`A bit nervous. I'm presenting today aren't I?`);
+            afterEachResponse();
+          } else if (
+            userTranscript.toLowerCase().includes("no") &&
+            userTranscript.toLowerCase().includes("nervous")
+          ) {
+            setBotResponse(`Thanks ${providedName}. Hello Everyone!`);
+
+            afterEachResponse();
+          }
         }
       }
     }
@@ -332,44 +345,55 @@ const Main = () => {
 
   let printedResponse = botResponse;
 
+  const bringToProfile = () => {
+    stopListening();
+    return history.push(`/profile/${userid}`);
+  };
+
   botCommandsGRP1();
   return (
-    <div className="microphone-wrapper">
-      <button onClick={handleLogout}>Logout</button>
+    <div className="grid">
+      <div className="microphone-wrapper">
+        <button onClick={bringToProfile}>Profile</button>
+        <button onClick={handleLogout}>Logout</button>
 
-      <div className="mircophone-container">
-        <div
-          className="microphone-icon-container"
-          ref={microphoneRef}
-          onClick={handleListing}
-        >
-          <img
-            src="/images/207-2078589_recording-symbol-vector-iphone-microphone-icon.png"
-            className="microphone-icon"
-          />
+        <div className="mircophone-container">
+          <div
+            className="microphone-icon-container"
+            ref={microphoneRef}
+            onClick={handleListing}
+          ></div>
+          <div className="microphone-status"></div>
+          {isListening && (
+            <button className="microphone-stop btn" onClick={stopHandle}>
+              Stop
+            </button>
+          )}
         </div>
-        <div className="microphone-status">
-          {isListening ? "Listening........." : "Click to start Listening"}
+        <div className="microphone-result-container">
+          <h2>
+            Begin with "Hello{" "}
+            {botName.charAt(0).toUpperCase() + botName.slice(1)}!"
+          </h2>
+          <ul className="microphone-result-text">
+            {/* {transcript != "" && (
+              <p>
+                {botName.charAt(0).toUpperCase() + botName.slice(1)} is
+                listening..
+              </p>
+            )} */}
+            <h4>{transcript}</h4>
+            <h4>{printedResponse}</h4>
+          </ul>
         </div>
-        {isListening && (
-          <button className="microphone-stop btn" onClick={stopHandle}>
-            Stop
-          </button>
+        {transcript && (
+          <div className="microphone-result-container">
+            <button className="microphone-reset btn" onClick={handleReset}>
+              Reset
+            </button>
+          </div>
         )}
       </div>
-      <div className="microphone-result-container">
-        <ul className="microphone-result-text">
-          <p>{transcript}</p>
-          <h4>{printedResponse}</h4>
-        </ul>
-      </div>
-      {transcript && (
-        <div className="microphone-result-container">
-          <button className="microphone-reset btn" onClick={handleReset}>
-            Reset
-          </button>
-        </div>
-      )}
     </div>
   );
 };

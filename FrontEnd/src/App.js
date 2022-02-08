@@ -5,6 +5,7 @@ import Front from "./pages/front";
 import Main from "./pages/main";
 import userContext from "./context/userContext";
 import Login from "./pages/login";
+import Profile from "./pages/profile";
 
 function App() {
   const [userId, setUserId] = useState();
@@ -24,6 +25,9 @@ function App() {
             </Route>
             <Route exact path="/registration">
               <Registration></Registration>
+            </Route>
+            <Route path="/profile/:userid">
+              <Profile></Profile>
             </Route>
             <Route exact path="/main/:userid">
               <Main></Main>

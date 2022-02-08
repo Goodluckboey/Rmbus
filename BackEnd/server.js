@@ -87,7 +87,7 @@ app.get("/requests/:userid", async (req, res) => {
 });
 
 //Display Account botName
-app.get("/botName/:userid", async (req, res) => {
+app.get("/profile/:userid", async (req, res) => {
   try {
     const userRequests = await User.find({
       _id: req.params.userid,
