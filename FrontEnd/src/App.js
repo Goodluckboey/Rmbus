@@ -10,12 +10,20 @@ import Profile from "./pages/profile";
 function App() {
   const [userId, setUserId] = useState();
   const [botName, setBotName] = useState();
+  const [morMeter, setMorMeter] = useState();
   return (
     <div>
       <BrowserRouter>
         <Switch>
           <userContext.Provider
-            value={{ userId, setUserId, botName, setBotName }}
+            value={{
+              userId,
+              setUserId,
+              botName,
+              setBotName,
+              morMeter,
+              setMorMeter,
+            }}
           >
             <Route exact path="/">
               <Front></Front>

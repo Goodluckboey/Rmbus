@@ -16,6 +16,7 @@ const Main = () => {
   const setUserId = callAndSetUserId.setUserId;
   const userid = callAndSetUserId.userId;
   const botName = callAndSetUserId.botName;
+  const morMeter = callAndSetUserId.morMeter;
   const [userTranscript, setUserTranscript] = useState("");
   const [botResponse, setBotResponse] = useState("");
   const [greet, setGreet] = useState(false);
@@ -39,18 +40,27 @@ const Main = () => {
 
   // USE EFFECTS =============================================================
   const newft = () => {
-    setBotResponse(`Got it! I'll remember that. How can i help?`);
-    if (providedName.length > 0) {
+    console.log("functioning");
+    if (providedName.length != "") {
+      console.log("also functioning");
+      setBotResponse(`${providedName},  I'll remember that. How can i help?`);
       afterEachResponse();
     }
   };
 
   useEffect(() => {
+    console.log(transcript);
+    setUserTranscript(transcript);
+    console.log("istranscriptworking");
     setProvidedName(userTranscript);
+    if (userTranscript.length > 0) {
+      setProvidedName(userTranscript);
+      console.log("setProvidedName to Transcript");
+    }
   }, [assigningName]);
 
   useEffect(() => {
-    setTimeout(newft, 7000);
+    setTimeout(newft, 8500);
   }, [providedName]);
 
   useEffect(() => {
@@ -179,18 +189,6 @@ const Main = () => {
     setReqDelete(false);
   };
 
-  const innerListening = () => {
-    setStopped(false);
-    resetTranscript();
-    setIsListening(true);
-    microphoneRef.current.classList.add("listening");
-    SpeechRecognition.startListening({
-      continuous: true,
-    });
-    // setTimeout(stopListening, 8000);
-    setReqDelete(false);
-  };
-
   // GLOBAL CODES ===================================================================
 
   // >>>> Time And Date Functions
@@ -239,7 +237,7 @@ const Main = () => {
     handleSendRequest();
     setBotReady(true);
     resetTranscript();
-    setUserTranscript("");
+    // setUserTranscript("");
     setUserTranscript("");
   };
 
@@ -256,15 +254,16 @@ const Main = () => {
       }
       if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
         if (greet === false) {
-          handleWeather();
+          // handleWeather();
 
           setBotResponse(
             `Hello! My name is ${
               botName.charAt(0).toUpperCase() + botName.slice(1)
-            }, What's your name?`
+            }, How may I address you?`
           );
           afterEachResponse();
-          setGreet(true);
+          resetTranscript();
+          setTimeout(setProvidedName(userTranscript), 7900);
           setGreet(true);
         }
       }
@@ -277,11 +276,11 @@ const Main = () => {
           if (userTranscript.toLowerCase().includes(`hello ${botName}`)) {
             setBotResponse(`Didnt you greet me earlier ${providedName}?`);
             afterEachResponse();
-          } else if (userTranscript.toLowerCase().includes("weather")) {
-            setBotResponse(
-              `My newspaper says it'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`
-            );
-            afterEachResponse();
+            // } else if (userTranscript.toLowerCase().includes("weather")) {
+            //   setBotResponse(
+            //     `My newspaper says it'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`
+            //   );
+            //   afterEachResponse();
           } else if (userTranscript.toLowerCase().includes("evening")) {
             setBotResponse(
               `Good evening ${providedName}, how has your day been?`
@@ -291,8 +290,7 @@ const Main = () => {
           } else if (userTranscript.toLowerCase().includes("goodbye")) {
             setBotResponse(`It's been a pleasure ${providedName}.`);
             afterEachResponse();
-            stopListening();
-            stopListening();
+            handleLogout();
           } else if (userTranscript.toLowerCase().includes("time")) {
             setBotResponse(`${todayTime}`);
 
@@ -351,6 +349,9 @@ const Main = () => {
   };
 
   botCommandsGRP1();
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
   return (
     <div className="grid">
       <div className="microphone-wrapper">

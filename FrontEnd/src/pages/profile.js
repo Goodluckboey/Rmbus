@@ -6,11 +6,13 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const Profile = () => {
   const callAndSetUserId = useContext(userContext);
   const userid = callAndSetUserId.userId;
+  const setMorMeter = callAndSetUserId.setMorMeter;
   const [profileData, setProfileData] = useState();
   const [pulled, setPulled] = useState();
   useEffect(() => {
     retrieveProfile();
     retrieveProfile();
+    setMorMeter(profileData.morality);
   }, []);
 
   let history = useHistory();
