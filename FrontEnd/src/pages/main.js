@@ -55,7 +55,7 @@ const Main = () => {
     // setProvidedName(userTranscript);
     if (userTranscript.length > 0) {
       if (userTranscript != "") {
-        setProvidedName(userTranscript);
+        setProvidedName("USER");
         console.log("setProvidedName to Transcript");
       }
     }
@@ -401,3 +401,50 @@ const Main = () => {
 };
 
 export default Main;
+
+/*
+const experiment = [
+    {
+      first: "hello",
+      second: botName,
+      reply: `Well hello there! Whats your name?`,
+    },
+    {
+      first: "how",
+      second: "you",
+      reply: `A bit nervous. I'm presenting today aren't I?`,
+    },
+    {
+      first: "no",
+      second: "nervous",
+      reply: `Thanks ${providedName}. Hello Everyone!`,
+    },
+    {
+      first: "repeat",
+      second: "repeat",
+      reply: botResponse,
+    },
+    {
+      first: "date",
+      second: "date",
+      reply: `The date today is ${todayDate}.`,
+    },
+  ];
+
+  const runThroughArray = (TS) => {
+    experiment.map((element) => {
+      if (TS.toLowerCase().includes(element.first)) {
+        if (TS.toLowerCase().includes(element.second)) {
+          setBotResponse(element.reply);
+          if (
+            TS.toLowerCase().includes("hello") &&
+            TS.toLowerCase().includes(botName)
+          ) {
+            setGreet(true);
+          }
+          afterEachResponse();
+        }
+      }
+    });
+  };
+*/
