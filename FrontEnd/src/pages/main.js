@@ -25,9 +25,7 @@ const Main = () => {
   const [stopped, setStopped] = useState(false);
   const [providedName, setProvidedName] = useState("Default User");
   const [weather, setWeather] = useState("");
-  const [trigger, setTrigger] = useState(0);
   const [checkedForWeather, setCheckedForWeather] = useState(false);
-  const [botResponse, setBotResponse] = useState("");
   const callAndSetUserId = useContext(userContext);
   const setUserId = callAndSetUserId.setUserId;
   const userid = callAndSetUserId.userId;
@@ -46,7 +44,7 @@ const Main = () => {
   useEffect(() => {
     if (!stopped) {
       console.log(morMeter);
-      //   SpeechRecognition.startListening({ continuous: true });
+      // SpeechRecognition.startListening({ continuous: true });
 
       if (callAndSetUserId.morMeter < 6) {
         commandList(firstPerson);

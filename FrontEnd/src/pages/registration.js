@@ -129,7 +129,7 @@ const Registration = () => {
     <div className={styles.registrationPage}>
       {/* <img src="/images/logo.png" className={styles.logo} /> */}
       <div className={styles.sideImage}></div>
-      <div>
+      <div className={styles.registerInfo}>
         <form>
           <input
             className={styles.inputbar}
