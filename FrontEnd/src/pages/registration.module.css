@@ -1,5 +1,14 @@
-.inputbar {
+.registrationPage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(63, 63, 63);
   width: 80%;
+  border-radius: 5%;
+}
+
+.inputbar {
+  width: 30%;
   border-radius: 20px;
   text-align: center;
   margin-top: 10px;
@@ -10,12 +19,12 @@
 
 .answerSection {
   display: grid;
-  grid-template-columns: repeat(2, 60%);
+  grid-template-columns: repeat(2, 30%);
   justify-content: center;
 }
 
 .answerSelections {
-  width: 30vw;
+  width: 20vw;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
@@ -54,7 +63,7 @@ p {
 }
 
 .logo {
-  max-width: 100%;
+  max-width: 15%;
   display: flex;
   margin-left: auto;
   margin-right: auto;
@@ -62,4 +71,8 @@ p {
   border-radius: 50%;
 
   /* margin-right: 100%; */
+}
+
+.sideImage {
+  background-image: "ai-g1426e8550_1920.jpg";
 }

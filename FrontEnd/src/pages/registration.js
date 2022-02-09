@@ -32,6 +32,8 @@ const Registration = () => {
     botName: "",
   });
 
+  const [robot, setRobot] = useState("ChatBot");
+
   // Make click handle for Registration
   const innerRegistration = (event) => {
     event.preventDefault();
@@ -60,7 +62,7 @@ const Registration = () => {
 
   const questions = [
     {
-      questionText: "You see a wallet on the ground. What do you do?",
+      questionText: `${robot} see a wallet on the ground. What does it do?`,
       answerOptions: [
         { answerText: "Don't touch, got ghost.", moralityScore: 2 },
         { answerText: "Keep it", moralityScore: -1 },
@@ -75,8 +77,7 @@ const Registration = () => {
       ],
     },
     {
-      questionText:
-        "You have escaped your kidnappers, but notice another victim near you. What do you do?",
+      questionText: `${robot} has escaped it's kidnappers, but notices another victim near it. What does it do?`,
       answerOptions: [
         { answerText: "Escape to call the cops.", moralityScore: 3 },
         { answerText: "Survival of the fittest yo.", moralityScore: 2 },
@@ -91,8 +92,7 @@ const Registration = () => {
       ],
     },
     {
-      questionText:
-        "You're coding a new project but you have no idea what you're doing. What do you do?",
+      questionText: `${robot} is coding a new project but it has no idea what to do. What does it do?`,
       answerOptions: [
         {
           answerText: "Tough it out",
@@ -126,96 +126,104 @@ const Registration = () => {
   };
 
   return (
-    <div className="registrationPage">
-      <img src="/images/logo.png" className={styles.logo} />
-      <form>
-        <input
-          className={styles.inputbar}
-          type="text"
-          value={input.botName}
-          onChange={(event) => {
-            dispatchInput({
-              type: "BotName",
-              payload: { input: event.target.value },
-            });
-          }}
-          placeholder="BotName"
-        />
-        <input
-          className={styles.inputbar}
-          type="email"
-          value={input.email}
-          onChange={(event) => {
-            dispatchInput({
-              type: "Email",
-              payload: { input: event.target.value },
-            });
-          }}
-          placeholder="Email"
-        />
-        <input
-          className={styles.inputbar}
-          type="text"
-          value={input.userName}
-          onChange={(event) => {
-            dispatchInput({
-              type: "Username",
-              payload: { input: event.target.value },
-            });
-          }}
-          placeholder="Username"
-        />
-        <input
-          className={styles.inputbar}
-          type="password"
-          value={input.password}
-          onChange={(event) => {
-            dispatchInput({
-              type: "Password",
-              payload: { input: event.target.value },
-            });
-          }}
-          placeholder="Password"
-        />
-      </form>
-      {showScore ? (
-        <div className="score-section">Your Morality Score is {score}</div>
-      ) : (
-        <>
-          <div className="question-section">
-            <div className={styles.questionCount}>
-              Question {currentQuestion + 1} / {questions.length}
+    <div className={styles.registrationPage}>
+      {/* <img src="/images/logo.png" className={styles.logo} /> */}
+      <div className={styles.sideImage}></div>
+      <div>
+        <form>
+          <input
+            className={styles.inputbar}
+            type="text"
+            value={input.botName}
+            onChange={(event) => {
+              setRobot(event.target.value);
+              setRobot(event.target.value);
+              if (event.target.value === "") {
+                setRobot("Chatbot");
+              }
+              dispatchInput({
+                type: "BotName",
+                payload: { input: event.target.value },
+              });
+            }}
+            placeholder="Enter BotName.."
+          />
+          <input
+            className={styles.inputbar}
+            type="email"
+            value={input.email}
+            onChange={(event) => {
+              dispatchInput({
+                type: "Email",
+                payload: { input: event.target.value },
+              });
+            }}
+            placeholder="Enter Email.."
+          />
+          <input
+            className={styles.inputbar}
+            type="text"
+            value={input.userName}
+            onChange={(event) => {
+              dispatchInput({
+                type: "Username",
+                payload: { input: event.target.value },
+              });
+            }}
+            placeholder="Enter Username.."
+          />
+          <input
+            className={styles.inputbar}
+            type="password"
+            value={input.password}
+            onChange={(event) => {
+              dispatchInput({
+                type: "Password",
+                payload: { input: event.target.value },
+              });
+            }}
+            placeholder="Enter Password.."
+          />
+        </form>
+        {showScore ? (
+          <div className="score-section">Your Morality Score is {score}</div>
+        ) : (
+          <>
+            <div className="question-section">
+              <div className={styles.questionCount}>
+                Question {currentQuestion + 1} / {questions.length}
+              </div>
+              <h3 className={styles.questionText}>
+                {questions[currentQuestion].questionText}
+              </h3>
             </div>
-            <h3 className={styles.questionText}>
-              {questions[currentQuestion].questionText}
-            </h3>
-          </div>
-          <div className={styles.answerSection}>
-            {questions[currentQuestion].answerOptions.map((answerOption) => (
-              <button
-                className={styles.answerSelections}
-                onClick={() =>
-                  handleAnswerOptionClick(answerOption.moralityScore)
-                }
-              >
-                {answerOption.answerText}
-              </button>
-            ))}
-          </div>
-        </>
-      )}
-      <div className={styles.linkings}>
-        <Link to="/">Back to Homepage</Link>
-        <Link to="/login">
-          <button
-            className={styles.submitBtn}
-            onClick={innerRegistration}
-            value="Sign up"
-            type="submit"
-          >
-            Register
-          </button>
-        </Link>
+            <div className={styles.answerSection}>
+              {questions[currentQuestion].answerOptions.map((answerOption) => (
+                <button
+                  className={styles.answerSelections}
+                  onClick={() =>
+                    handleAnswerOptionClick(answerOption.moralityScore)
+                  }
+                >
+                  {answerOption.answerText}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+        <div className={styles.linkings}>
+          <Link to="/">Back to Homepage</Link>
+          <Link to="/login">
+            <button
+              className={styles.submitBtn}
+              onClick={innerRegistration}
+              value="Sign up"
+              type="submit"
+            >
+              Register
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );

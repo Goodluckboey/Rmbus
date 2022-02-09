@@ -5,8 +5,6 @@ import Front from "./pages/front";
 import userContext from "./context/userContext";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
-import Dictaphone from "./pages/dictaphone";
-// import Main from "./pages/OGmain";
 import Main from "./pages/main";
 
 function App() {
@@ -40,7 +38,7 @@ function App() {
               <Profile></Profile>
             </Route>
             <Route exact path="/main/:userid">
-              <Dictaphone></Dictaphone>
+              <Main></Main>
               {/* <Main></Main> */}
             </Route>
           </userContext.Provider>

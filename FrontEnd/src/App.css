@@ -13,6 +13,17 @@
   }
 }
 
+.logo {
+  max-width: 100%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  /* margin-right: 100%; */
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

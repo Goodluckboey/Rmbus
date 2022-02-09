@@ -24,6 +24,7 @@ const Login = () => {
   const setUserId = assignedUserData.setUserId;
   const userId = assignedUserData.userId;
   const setBotName = assignedUserData.setBotName;
+  const setMorMeter = assignedUserData.setMorMeter;
   let history = useHistory();
 
   useEffect(() => {
@@ -46,6 +47,8 @@ const Login = () => {
         console.log(res.data.user.botName);
         setUserId(res.data.user._id);
         setBotName(res.data.user.botName);
+        setMorMeter(res.data.user.morality);
+        console.log("morality: ", res.data.user.morality);
       } else if (res.data.valid != true) {
         alert("Wrong username or password");
         console.log("test");
@@ -60,6 +63,7 @@ const Login = () => {
 
   return (
     <div>
+      <img src="/images/logo.png" className="logo" />
       <input
         type="text"
         value={inputLogin.Username}
@@ -82,6 +86,12 @@ const Login = () => {
         }}
         placeholder="Password"
       />
+      <Link to="/registration">
+        <h4>Create an Account</h4>
+      </Link>
+      <Link to="/">
+        <h4>Return to Homepage</h4>
+      </Link>
       <button type="button" onClick={handleLogin}>
         continue
       </button>
