@@ -35,7 +35,31 @@ Which brought me to this project:
 * How are you
 * Help me
 * What are you doing
+* What's you're favourite food
 
+## Functionality
+* There are multiple variations of these commands; an array variation for each personality
+* On Login, the user's MORALITY score is taken into account
+* Depending on their score, a specific array is parsed into the following function:
+
+   ```sh
+   const commandList = async (array) => {
+    array.map((element) => {
+      if (transcript.toLowerCase().includes(element.first)) {
+        if (transcript.toLowerCase().includes(element.second)) {
+          element.function();
+          handleSendRequest(userid)
+            .then(speak({ text: element.reply }))
+            .then(resetTranscript());
+          setUserTranscript(element.reply);
+        }
+      }
+    });
+  };
+  ```
+  
+* It runs two checks on the transcript to trigger specific commands
+* Each Object in the Array can hold a function that will be triggered on commandList run.
 
 ## Acknowledgments
 * [AOS](https://github.com/michalsnik/aos)
