@@ -12,10 +12,10 @@ Which brought me to this project:
 
 
 ### Built With
-
+#### MERN STACK
 * [React.js](https://reactjs.org/)
-* [React-Speech-Recognition](https://www.npmjs.com/package/react-speech-recognition)
-* [React-Speech-Kit](https://www.npmjs.com/package/react-speech-kit)
+* [Mongo](https://www.mongodb.com/)
+
 
 ## Usage
 * Create an account and name your Bot. Assign it's personality using the three questions provided.
@@ -62,4 +62,6 @@ Which brought me to this project:
 * Each Object in the Array can hold a function that will be triggered on commandList run.
 
 ## Acknowledgments
+* [React-Speech-Recognition](https://www.npmjs.com/package/react-speech-recognition)
+* [React-Speech-Kit](https://www.npmjs.com/package/react-speech-kit)
 * [AOS](https://github.com/michalsnik/aos)
