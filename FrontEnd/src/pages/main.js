@@ -238,6 +238,14 @@ const Main = () => {
         console.log();
       },
     },
+    {
+      first: `fav`,
+      second: `food`,
+      reply: `Easy. Chilli Hotdog with extra Mustard.`,
+      function: () => {
+        console.log();
+      },
+    },
   ];
 
   const secondPerson = [
@@ -336,6 +344,14 @@ const Main = () => {
         console.log();
       },
     },
+    {
+      first: `fav`,
+      second: `food`,
+      reply: `My favourite food? It'll likely be Potato Salad.`,
+      function: () => {
+        console.log();
+      },
+    },
   ];
 
   const thirdPerson = [
@@ -397,7 +413,7 @@ const Main = () => {
     {
       first: "thank",
       second: "thank",
-      reply: `I Live to Serve`,
+      reply: `I live to serve`,
       function: () => {},
     },
     {
@@ -412,7 +428,7 @@ const Main = () => {
       first: botName,
       second: botName,
       reply: `How may I serve ${providedName}?
-      }`,
+      `,
       function: () => {
         console.log();
       },
@@ -431,6 +447,14 @@ const Main = () => {
       first: `good`,
       second: `bye`,
       reply: `Till we meet again. Just Click that button on the left.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `fav`,
+      second: `food`,
+      reply: `Most definitely Scones! With a hot cup of tea!`,
       function: () => {
         console.log();
       },

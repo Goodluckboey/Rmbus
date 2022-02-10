@@ -39,14 +39,9 @@
   margin-left: auto;
   margin-right: auto;
   background: url("../../public/images/internet-g0ab9e3ffb_1920.jpg") no-repeat
-      left top,
-    linear-gradient(
-      90deg,
-      rgb(142, 65, 172) 0%,
-      rgba(146, 53, 159, 1) 40%,
-      rgba(0, 212, 255, 1) 100%
-    );
-  background-color: rgb(63, 63, 63);
+      left top;
+
+  background-color: rgb(31, 31, 31);
   width: 70%;
   border-radius: 5%;
   height: 80vh;
@@ -57,7 +52,7 @@
 .inputbar {
   color: white;
   background-color: transparent;
-  border: 2px solid rgb(124, 111, 143);
+  border: 1px solid rgb(199, 199, 199);
   width: 40%;
   border-radius: 15px;
   text-align: center;
