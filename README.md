@@ -8,7 +8,7 @@ In 2019, my relative passed away from cardiac arrest. The sudden loss left me wi
 
 Which brought me to this project:
 * I realized what I missed most was his witty bantor and his nagging
-* This lead me to believe that actually speaking to something "like" him would have helped me process my grief at his passing
+* This led me to believe that actually speaking to something "like" him would have helped me process my grief at his passing
 
 
 ### Built With
