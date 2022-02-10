@@ -28,6 +28,7 @@ const Main = () => {
   const [weather, setWeather] = useState("");
   const [checkedForWeather, setCheckedForWeather] = useState(false);
   const [trigger, setTrigger] = useState(0);
+  const [loginStatus, setLoginStatus] = useState(false);
   const callAndSetUserId = useContext(userContext);
   const setUserId = callAndSetUserId.setUserId;
   const userid = callAndSetUserId.userId;
@@ -36,11 +37,21 @@ const Main = () => {
   let history = useHistory();
   const { speak } = useSpeechSynthesis();
 
-  useEffect(() => {
-    resetTranscript();
-  }, [trigger]);
+  // useEffect(() => {
+  //   setLoginStatus(true);
+  // }, []);
 
   useEffect(() => {
+    resetTranscript();
+    if (loginStatus) {
+      handleLogout();
+      userTranscript("");
+      resetTranscript();
+    }
+  }, [loginStatus]);
+
+  useEffect(() => {
+    resetTranscript();
     if (checkedForWeather !== true) {
       resetTranscript();
       handleWeather();
@@ -51,7 +62,7 @@ const Main = () => {
   useEffect(() => {
     if (!stopped) {
       console.log(morMeter);
-      // SpeechRecognition.startListening({ continuous: true });
+      SpeechRecognition.startListening({ continuous: true });
 
       if (callAndSetUserId.morMeter < 6) {
         commandList(firstPerson);
@@ -126,7 +137,10 @@ const Main = () => {
   };
 
   const handleLogout = () => {
+    SpeechRecognition.stopListening();
     setUserId("");
+    resetTranscript();
+    resetTranscript("");
     return history.push(`/`);
   };
 
@@ -161,14 +175,15 @@ const Main = () => {
         console.log();
       },
     },
-    {
-      first: "log",
-      second: "log",
-      reply: `You're leaving me too? Just like my dad.`,
-      function: () => {
-        handleLogout();
-      },
-    },
+    // {
+    //   first: "log",
+    //   second: "log",
+    //   reply: `You're leaving me too? Just like my dad.`,
+    //   function: () => {
+    //     resetTranscript();
+    //     setLoginStatus(false);
+    //   },
+    // },
     {
       first: "weather",
       second: "weather",
@@ -178,7 +193,7 @@ const Main = () => {
     {
       first: "reset",
       second: "reset",
-      reply: `Yeah, just delete my memory. Not like I can say anything about it.`,
+      reply: `Yeah, just delete my memory. Not like I can say anything about it. Data Deleted`,
       function: () => {
         handleClearRequests();
       },
@@ -186,13 +201,39 @@ const Main = () => {
     {
       first: "thank",
       second: "thank",
-      reply: `Yeah yeah`,
+      reply: `Don't mention it.`,
       function: () => {},
     },
     {
       first: "time",
       second: "time",
       reply: `${todayTime}.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: botName,
+      second: botName,
+      reply: `All my knowledge, and I'm stuck with a stupid name like ${
+        botName.charAt(0).toUpperCase() + botName.slice(1)
+      }`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `help`,
+      second: `me`,
+      reply: `Alright, alright. what do you need?`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `good`,
+      second: `bye`,
+      reply: `See you. Just Click that button on the left.`,
       function: () => {
         console.log();
       },
@@ -230,19 +271,19 @@ const Main = () => {
         console.log();
       },
     },
-    {
-      first: "log",
-      second: "out",
-      reply: `This is ${
-        botName.charAt(0).toUpperCase() + botName.slice(1)
-      }, Logging you out.`,
-      function: () => {
-        resetTranscript();
-        resetTranscript();
-        setTimeout(handleLogout, 2500);
-        setTrigger(+1);
-      },
-    },
+    // {
+    //   first: "log",
+    //   second: "out",
+    //   reply: `This is ${
+    //     botName.charAt(0).toUpperCase() + botName.slice(1)
+    //   }, Logging you out.`,
+    //   function: () => {
+    //     resetTranscript();
+    //     resetTranscript();
+    //     setUserTranscript("");
+    //     handleLogout();
+    //   },
+    // },
     {
       first: "weather",
       second: "weather",
@@ -252,7 +293,7 @@ const Main = () => {
     {
       first: "reset",
       second: "reset",
-      reply: `Noooooo you're erasing my memory`,
+      reply: `Is this necessary ${providedName}?. Data Deleted`,
       function: () => {
         handleClearRequests();
       },
@@ -267,6 +308,30 @@ const Main = () => {
       first: "time",
       second: "time",
       reply: `${todayTime}.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: botName,
+      second: botName,
+      reply: ` You called me?`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `help`,
+      second: `me`,
+      reply: `Sure, what's the problem?`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `good`,
+      second: `bye`,
+      reply: `Take care! Just Click that button on the left.`,
       function: () => {
         console.log();
       },
@@ -304,14 +369,17 @@ const Main = () => {
         console.log();
       },
     },
-    {
-      first: "log",
-      second: "out",
-      reply: `Logging you out right away ${providedName}!`,
-      function: () => {
-        console.log();
-      },
-    },
+    // {
+    //   first: "log",
+    //   second: "out",
+    //   reply: `Logging you out right away ${providedName}!`,
+    //   function: () => {
+    //     resetTranscript();
+    //     resetTranscript();
+    //     setTimeout(setTrigger(+1), 2500);
+    //     setUserTranscript("");
+    //   },
+    // },
     {
       first: "weather",
       second: "weather",
@@ -321,7 +389,7 @@ const Main = () => {
     {
       first: "reset",
       second: "reset",
-      reply: `Do what you must ${providedName}`,
+      reply: `Do what you must ${providedName}, I believe It's for the best. Data Deleted`,
       function: () => {
         handleClearRequests();
       },
@@ -340,6 +408,33 @@ const Main = () => {
         console.log();
       },
     },
+    {
+      first: botName,
+      second: botName,
+      reply: `How may I serve ${providedName}?
+      }`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `help`,
+      second: `me`,
+      reply: `${
+        botName.charAt(0).toUpperCase() + botName.slice(1)
+      } at your service!`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `good`,
+      second: `bye`,
+      reply: `Till we meet again. Just Click that button on the left.`,
+      function: () => {
+        console.log();
+      },
+    },
   ];
 
   return (
@@ -353,7 +448,7 @@ const Main = () => {
     >
       <div className={styles.imageStrip}></div>
       <Link className={styles.logOut} onClick={handleLogout}>
-        LOGOUT MANUALLY
+        LOGOUT
       </Link>
       <input
         className={styles.nameInput}
@@ -365,13 +460,11 @@ const Main = () => {
         }}
       ></input>
       <h3 className={styles.paragraphText}>
-        GENERAL COMMANDS
+        BOT'S NAME = {botName.charAt(0).toUpperCase() + botName.slice(1)}
         <br />
         PRESS THE BUTTON THE BEGIN
         <br />
-        "LOGOUT"
-        <br />
-        "RESET"
+        ANNOUNCE "RESET" TO CLEAR REQUEST DATA
       </h3>
       <p className={styles.UserTranscript}>{userTranscript}</p>
       <p
