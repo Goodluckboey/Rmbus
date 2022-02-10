@@ -3,10 +3,10 @@
 ## About The Project
 
 
-[product-screenshot]](https://example.com)
+[![Product Name Screen Shot]](https://example.com)
 
 
-[product-screenshot]](https://scontent.fsin7-1.fna.fbcdn.net/v/t39.30808-6/273768178_10228675259125611_5986526394867527298_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=730e14&_nc_ohc=sp8O84q8nv4AX9-XrsH&tn=bqB8VnlrwVxAqFYk&_nc_ht=scontent.fsin7-1.fna&oh=00_AT_W1Z532C1SJkmDdUhvJvbk1GItIIbMH5roWjMdl9TEIg&oe=620B0E29)
+[![Product Name Screen Shot]](https://scontent.fsin7-1.fna.fbcdn.net/v/t39.30808-6/273768178_10228675259125611_5986526394867527298_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=730e14&_nc_ohc=sp8O84q8nv4AX9-XrsH&tn=bqB8VnlrwVxAqFYk&_nc_ht=scontent.fsin7-1.fna&oh=00_AT_W1Z532C1SJkmDdUhvJvbk1GItIIbMH5roWjMdl9TEIg&oe=620B0E29)
 
 In 2019, my relative passed away from cardiac arrest. The sudden loss left me with a feeling of emptiness that couldn't be filled with pictures or videos.
 
