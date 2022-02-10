@@ -62,6 +62,10 @@ Which brought me to this project:
 * It runs two checks on the transcript to trigger specific commands
 * Each Object in the Array can hold a function that will be triggered on commandList run.
 
+## Difficulties
+* As of right now, all conversations are strictly One Dimensional; Request and Answer
+* It is my intention to refine this project to accept up to Three Dimensional conversations; Request > Answer > 2ndRequest > 2ndAnswer
+
 ## Acknowledgments
 * [React-Speech-Recognition](https://www.npmjs.com/package/react-speech-recognition)
 * [React-Speech-Kit](https://www.npmjs.com/package/react-speech-kit)
