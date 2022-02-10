@@ -27,6 +27,7 @@ const Main = () => {
   const [providedName, setProvidedName] = useState("Default User");
   const [weather, setWeather] = useState("");
   const [checkedForWeather, setCheckedForWeather] = useState(false);
+  const [trigger, setTrigger] = useState(0);
   const callAndSetUserId = useContext(userContext);
   const setUserId = callAndSetUserId.setUserId;
   const userid = callAndSetUserId.userId;
@@ -36,7 +37,12 @@ const Main = () => {
   const { speak } = useSpeechSynthesis();
 
   useEffect(() => {
+    resetTranscript();
+  }, [trigger]);
+
+  useEffect(() => {
     if (checkedForWeather !== true) {
+      resetTranscript();
       handleWeather();
       setCheckedForWeather(true);
       console.log("Forecasted Weather: ", weather);
@@ -227,9 +233,14 @@ const Main = () => {
     {
       first: "log",
       second: "out",
-      reply: `This is ${botName}, Logging you out.`,
+      reply: `This is ${
+        botName.charAt(0).toUpperCase() + botName.slice(1)
+      }, Logging you out.`,
       function: () => {
-        console.log();
+        resetTranscript();
+        resetTranscript();
+        setTimeout(handleLogout, 2500);
+        setTrigger(+1);
       },
     },
     {
@@ -332,7 +343,18 @@ const Main = () => {
   ];
 
   return (
-    <div className={styles.mainPage}>
+    <div
+      data-aos="fade-in"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-once="true"
+      className={styles.mainPage}
+    >
+      <div className={styles.imageStrip}></div>
+      <Link className={styles.logOut} onClick={handleLogout}>
+        LOGOUT MANUALLY
+      </Link>
       <input
         className={styles.nameInput}
         type="text"
@@ -342,25 +364,24 @@ const Main = () => {
           setProvidedName(event.target.value);
         }}
       ></input>
-      <h3
-        style={{
-          lineHeight: "1.6",
-          textAlign: "center",
-          fontFamily: "helvatica-Added",
-          letterSpacing: "0.07em",
-        }}
-      >
-        General Commands:
+      <h3 className={styles.paragraphText}>
+        GENERAL COMMANDS
         <br />
-        Press the button to begin
+        PRESS THE BUTTON THE BEGIN
         <br />
-        Logout
+        "LOGOUT"
         <br />
-        Reset
+        "RESET"
       </h3>
-      {/* <button onClick={resetTranscript}>Reset your requests</button> */}
       <p className={styles.UserTranscript}>{userTranscript}</p>
-      <p className={styles.circleGrp}>
+      <p
+        data-aos="fade-in"
+        data-aos-delay="50"
+        data-aos-duration="1000"
+        data-aos-easing="ease-in-out"
+        data-aos-once="true"
+        className={styles.circleGrp}
+      >
         {listening ? (
           <img
             onClick={SpeechRecognition.stopListening}

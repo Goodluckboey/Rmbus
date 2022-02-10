@@ -4,7 +4,13 @@ import styles from "./front.module.css";
 
 const Front = () => {
   return (
-    <div>
+    <div
+      data-aos="fade-in"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-once="true"
+    >
       <div className={styles.largeBtns}>
         <Link to="/registration">
           <button className={styles.registerBtn}> To Registration</button>

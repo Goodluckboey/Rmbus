@@ -3,6 +3,21 @@
   padding: 0px;
 }
 
+.paragraphText {
+  font-family: helvatica-Added;
+  text-align: center;
+  letter-spacing: 0.07em;
+  line-height: 1.6;
+}
+
+.UserTranscript {
+  margin: 20px;
+  font-family: helvatica-Added;
+  text-align: center;
+  letter-spacing: 0.07em;
+  line-height: 1.6;
+}
+
 .nameInput {
   border: 1px solid white;
   border-radius: 25px;
@@ -49,6 +64,38 @@
   text-align: center;
   position: absolute;
   bottom: 250px;
-  right: 200px;
+  right: 160px;
   left: 0px;
 }
+
+.circleGrp:hover {
+  transform-origin: center;
+  transition: 0.5s;
+  /* transform: scale(1.08); */
+}
+
+.circleGrp :active {
+  transform-origin: center;
+  transition: 0.5s;
+  transform: scale(0.8);
+}
+
+.logOut {
+  background-color: transparent;
+  padding-left: 50px;
+  border-left: white 1px solid;
+  text-decoration: none;
+  border-radius: 25px;
+  font-family: helvatica-Added;
+  letter-spacing: 0.07em;
+  position: relative;
+}
+
+/* @keyframes LogoutMove {
+  from {
+    left: 0px;
+  }
+  to {
+    left: -50px;
+  }
+} */
