@@ -40,7 +40,7 @@ Which brought me to this project:
 
 ## Functionality
 * There are multiple variations of these commands; an array variation for each personality
-* On Login, the user's MORALITY score is taken into account
+* On Login, a GET request is made for the User's Info. The user's MORALITY score is then taken into account.
 * Depending on their score, a specific array is parsed into the following function:
 
    ```sh
@@ -61,6 +61,8 @@ Which brought me to this project:
   
 * It runs two checks on the transcript to trigger specific commands
 * Each Object in the Array can hold a function that will be triggered on commandList run.
+* On a successful read of User's request, the app will log the specific request and send it into the database.
+* Calling "Reset" in speech will run a deletetion of all previously recorded User Requests
 
 ## Difficulties
 ### UseStates
