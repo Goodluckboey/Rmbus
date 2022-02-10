@@ -1,6 +1,6 @@
 # RmbUs
  
-## About The Project
+## About RmbUs; RememberUs
 
 
 
