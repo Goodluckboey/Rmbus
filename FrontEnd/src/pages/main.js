@@ -7,6 +7,7 @@ import SpeechRecognition, {
 import userContext from "../context/userContext";
 import { useHistory, Link } from "react-router-dom/cjs/react-router-dom.min";
 import { todayDate, todayTime, hours, minutes } from "./dateTime";
+import styles from "./main.module.css";
 
 // ========================================================================================================================================================================================================================================
 // COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE COMPNENT BEGINS HERE |
@@ -36,7 +37,7 @@ const Main = () => {
 
   useEffect(() => {
     if (checkedForWeather !== true) {
-      //   handleWeather();
+      handleWeather();
       setCheckedForWeather(true);
       console.log("Forecasted Weather: ", weather);
     }
@@ -126,7 +127,7 @@ const Main = () => {
   const firstPerson = [
     {
       first: "hello",
-      second: botName,
+      second: "hello",
       reply: `Sup  ${providedName}! `,
       function: () => {},
     },
@@ -156,7 +157,7 @@ const Main = () => {
     },
     {
       first: "log",
-      second: "out",
+      second: "log",
       reply: `You're leaving me too? Just like my dad.`,
       function: () => {
         handleLogout();
@@ -195,7 +196,7 @@ const Main = () => {
   const secondPerson = [
     {
       first: "hello",
-      second: botName,
+      second: "hello",
       reply: `A very good day to you ${providedName}! `,
       function: () => {},
     },
@@ -264,7 +265,7 @@ const Main = () => {
   const thirdPerson = [
     {
       first: "hello",
-      second: botName,
+      second: "hello",
       reply: `I hope you're having a wonderful day today ${providedName}! `,
       function: () => {},
     },
@@ -331,11 +332,9 @@ const Main = () => {
   ];
 
   return (
-    <div>
-      <button onClick={handleLogout}>Logout</button>
-      <p>Microphone: {listening ? "on" : "off"}</p>
-      <p>{userTranscript}</p>
+    <div className={styles.mainPage}>
       <input
+        className={styles.nameInput}
         type="text"
         placeholder="Enter your name here"
         onChange={(event) => {
@@ -343,14 +342,39 @@ const Main = () => {
           setProvidedName(event.target.value);
         }}
       ></input>
-      <button onClick={restartMic}>
-        Have {botName.charAt(0).toUpperCase() + botName.slice(1)} start
-        listening again
-      </button>
-      <button onClick={SpeechRecognition.stopListening}>
-        Stop {botName.charAt(0).toUpperCase() + botName.slice(1)} from listening
-      </button>
-      <button onClick={resetTranscript}>Reset your requests</button>
+      <h3
+        style={{
+          lineHeight: "1.6",
+          textAlign: "center",
+          fontFamily: "helvatica-Added",
+          letterSpacing: "0.07em",
+        }}
+      >
+        General Commands:
+        <br />
+        Press the button to begin
+        <br />
+        Logout
+        <br />
+        Reset
+      </h3>
+      {/* <button onClick={resetTranscript}>Reset your requests</button> */}
+      <p className={styles.UserTranscript}>{userTranscript}</p>
+      <p className={styles.circleGrp}>
+        {listening ? (
+          <img
+            onClick={SpeechRecognition.stopListening}
+            className={styles.bubbleMove}
+            src="../images/image-from-rawpixel-id-2542345-original.png"
+          ></img>
+        ) : (
+          <img
+            onClick={restartMic}
+            className={styles.bubble}
+            src="../images/image-from-rawpixel-id-2542345-original.png"
+          ></img>
+        )}
+      </p>
     </div>
   );
 };
