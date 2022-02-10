@@ -63,6 +63,10 @@ Which brought me to this project:
 * Each Object in the Array can hold a function that will be triggered on commandList run.
 
 ## Difficulties
+### UseStates
+* The life cycle of useStates were a constant headache. Especially when using Speech, the states had/have trouble reading the most updated data assigned to those states. This caused issues in both knowing which response to give, and when to give them.
+
+### Conversation Dimensions
 * As of right now, all conversations are strictly One Dimensional; Request and Answer
 * It is my intention to refine this project to accept up to Three Dimensional conversations; Request > Answer > 2ndRequest > 2ndAnswer
 
