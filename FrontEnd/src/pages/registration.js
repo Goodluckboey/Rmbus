@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 // import "../App.css";
 import styles from "./registration.module.css";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const changeInput = (input, action) => {
   switch (action.type) {
@@ -126,7 +130,14 @@ const Registration = () => {
   };
 
   return (
-    <div className={styles.registrationPage}>
+    <div
+      data-aos="fade-right"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-once="true"
+      className={styles.registrationPage}
+    >
       {/* <img src="/images/logo.png" className={styles.logo} /> */}
       {/* <div className={styles.sideImage}></div> */}
       <div className={styles.registerInfo}>

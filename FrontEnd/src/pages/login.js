@@ -4,6 +4,10 @@ import userContext from "../context/userContext";
 import { useHistory, Link } from "react-router-dom/cjs/react-router-dom.min";
 import styles from "./login.module.css";
 import "../App.css";
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+// ..
+AOS.init();
 
 const Login = () => {
   const changeInput = (inputLogin, action) => {
@@ -63,7 +67,14 @@ const Login = () => {
   };
 
   return (
-    <div className={styles.loginPage}>
+    <div
+      data-aos="fade-left"
+      data-aos-delay="50"
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-once="true"
+      className={styles.loginPage}
+    >
       <img src="/images/logo.png" className={styles.logo} />
       <div className={styles.inputCollection}>
         <input

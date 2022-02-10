@@ -6,6 +6,7 @@ import userContext from "./context/userContext";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Main from "./pages/main";
+import Footer from "./pages/footer";
 
 function App() {
   const [userId, setUserId] = useState();
@@ -44,6 +45,7 @@ function App() {
           </userContext.Provider>
         </Switch>
       </BrowserRouter>
+      <Footer></Footer>
     </div>
   );
 }
