@@ -15,7 +15,27 @@ Which brought me to this project:
 
 * [React.js](https://reactjs.org/)
 * [React-Speech-Recognition](https://www.npmjs.com/package/react-speech-recognition)
+* [React-Speech-Kit](https://www.npmjs.com/package/react-speech-kit)
 
 ## Usage
 * Create an account and name your Bot. Assign it's personality using the three questions provided.
+* Login with your account details. The app might request usage of your microphone.
+* If you do not allow it, the app will not run properly.
 
+## Commands
+### Below are all the commands available at the moment for bots to respond to
+* RESET
+* Hello
+* <Your Bot's Name>
+* Thank you
+* Goodbye
+* Time
+* Date
+* Weather
+* How are you
+* Help me
+* What are you doing
+
+
+## Acknowledgments
+* [AOS](https://github.com/michalsnik/aos)
