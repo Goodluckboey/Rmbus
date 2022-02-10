@@ -1,17 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styles from "./front.module.css";
 
 const Front = () => {
   return (
     <div>
-      <h1>This is Front Page</h1>
+      <p className={styles.textFont}>Personifying Memories</p>
       <Link to="/registration">
-        <button>To Registration</button>
+        <button className={styles.registerBtn}>To Registration</button>
       </Link>
       <br />
       <Link to="/login">
-        <button>To Login</button>
-      </Link>
+        <button className={styles.loginBtn}>To Login</button>
+      </Link>{" "}
+      <p className={styles.mainTitle}>RMBUS</p>
     </div>
   );
 };

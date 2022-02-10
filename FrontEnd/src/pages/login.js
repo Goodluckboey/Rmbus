@@ -2,6 +2,7 @@ import React, { useContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import userContext from "../context/userContext";
 import { useHistory, Link } from "react-router-dom/cjs/react-router-dom.min";
+import styles from "./login.module.css";
 import "../App.css";
 
 const Login = () => {
@@ -62,39 +63,49 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <img src="/images/logo.png" className="logo" />
-      <input
-        type="text"
-        value={inputLogin.Username}
-        onChange={(event) => {
-          dispatchInput({
-            type: "Username",
-            payload: { inputLogin: event.target.value },
-          });
-        }}
-        placeholder="Username"
-      ></input>
-      <input
-        type="password"
-        value={inputLogin.Password}
-        onChange={(event) => {
-          dispatchInput({
-            type: "Password",
-            payload: { inputLogin: event.target.value },
-          });
-        }}
-        placeholder="Password"
-      />
-      <Link to="/registration">
-        <h4>Create an Account</h4>
-      </Link>
-      <Link to="/">
-        <h4>Return to Homepage</h4>
-      </Link>
-      <button type="button" onClick={handleLogin}>
-        continue
+    <div className={styles.loginPage}>
+      <img src="/images/logo.png" className={styles.logo} />
+      <div className={styles.inputCollection}>
+        <input
+          type="text"
+          value={inputLogin.Username}
+          onChange={(event) => {
+            dispatchInput({
+              type: "Username",
+              payload: { inputLogin: event.target.value },
+            });
+          }}
+          placeholder="Username"
+          className={styles.inputbar}
+        ></input>
+        <input
+          type="password"
+          value={inputLogin.Password}
+          onChange={(event) => {
+            dispatchInput({
+              type: "Password",
+              payload: { inputLogin: event.target.value },
+            });
+          }}
+          className={styles.inputbar}
+          placeholder="Password"
+        />
+      </div>
+      <button
+        className={styles.loginButton}
+        type="button"
+        onClick={handleLogin}
+      >
+        Login
       </button>
+      <div className={styles.Linkage}>
+        <Link to="/registration">
+          <h4>Create an Account</h4>
+        </Link>
+        <Link to="/">
+          <h4>Return to Homepage</h4>
+        </Link>
+      </div>
     </div>
   );
 };

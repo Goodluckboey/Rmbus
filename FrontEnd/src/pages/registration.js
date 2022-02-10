@@ -62,7 +62,7 @@ const Registration = () => {
 
   const questions = [
     {
-      questionText: `${robot} see a wallet on the ground. What does it do?`,
+      questionText: `${robot} sees a wallet on the ground. What does it do?`,
       answerOptions: [
         { answerText: "Don't touch, got ghost.", moralityScore: 2 },
         { answerText: "Keep it", moralityScore: -1 },
@@ -92,7 +92,7 @@ const Registration = () => {
       ],
     },
     {
-      questionText: `${robot} is coding a new project but it has no idea what to do. What does it do?`,
+      questionText: `${robot} is coding a new project but has no idea what to do. What does it do?`,
       answerOptions: [
         {
           answerText: "Tough it out",
@@ -100,11 +100,11 @@ const Registration = () => {
         },
         { answerText: "Stalk classmates", moralityScore: 2 },
         {
-          answerText: "Ask for help from the wonderful lecturer and TAs :P",
+          answerText: "TAs, help please",
           moralityScore: 3,
         },
         {
-          answerText: "Just copy from online.",
+          answerText: "Just copy from online",
           moralityScore: -1,
         },
       ],
@@ -128,8 +128,9 @@ const Registration = () => {
   return (
     <div className={styles.registrationPage}>
       {/* <img src="/images/logo.png" className={styles.logo} /> */}
-      <div className={styles.sideImage}></div>
+      {/* <div className={styles.sideImage}></div> */}
       <div className={styles.registerInfo}>
+        <h1 className={styles.header}>Register and create a bot!</h1>
         <form>
           <input
             className={styles.inputbar}
@@ -146,7 +147,7 @@ const Registration = () => {
                 payload: { input: event.target.value },
               });
             }}
-            placeholder="Enter BotName.."
+            placeholder="Enter your Bot's name"
           />
           <input
             className={styles.inputbar}
@@ -158,8 +159,9 @@ const Registration = () => {
                 payload: { input: event.target.value },
               });
             }}
-            placeholder="Enter Email.."
+            placeholder="Enter your Email"
           />
+
           <input
             className={styles.inputbar}
             type="text"
@@ -170,8 +172,9 @@ const Registration = () => {
                 payload: { input: event.target.value },
               });
             }}
-            placeholder="Enter Username.."
+            placeholder="Enter your Usernamee"
           />
+
           <input
             className={styles.inputbar}
             type="password"
@@ -182,7 +185,7 @@ const Registration = () => {
                 payload: { input: event.target.value },
               });
             }}
-            placeholder="Enter Password.."
+            placeholder="Enter your Password"
           />
         </form>
         {showScore ? (
@@ -212,7 +215,12 @@ const Registration = () => {
           </>
         )}
         <div className={styles.linkings}>
-          <Link to="/">Back to Homepage</Link>
+          <Link to="/" className={styles.homepageLink}>
+            Back to Homepage
+          </Link>
+          <Link to="/login" className={styles.homepageLink}>
+            Already have an account?
+          </Link>
           <Link to="/login">
             <button
               className={styles.submitBtn}
