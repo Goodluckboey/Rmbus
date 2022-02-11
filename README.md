@@ -37,6 +37,7 @@ Which brought me to this project:
 * Help me
 * What are you doing
 * What's you're favourite food
+* What's my name
 
 ## Functionality
 * There are multiple variations of these commands; an array variation for each personality
