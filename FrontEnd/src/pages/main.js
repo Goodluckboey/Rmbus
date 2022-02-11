@@ -187,7 +187,7 @@ const Main = () => {
     {
       first: "weather",
       second: "weather",
-      reply: `There'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
+      reply: `The weather description in Singapore today is: ${weather.description}, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
       function: () => {},
     },
     {
@@ -246,6 +246,12 @@ const Main = () => {
         console.log();
       },
     },
+    {
+      first: "what",
+      second: "name",
+      reply: `${providedName}! `,
+      function: () => {},
+    },
   ];
 
   const secondPerson = [
@@ -295,7 +301,7 @@ const Main = () => {
     {
       first: "weather",
       second: "weather",
-      reply: `There'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
+      reply: `The weather description in Singapore today is: ${weather.description}, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
       function: () => {},
     },
     {
@@ -323,7 +329,7 @@ const Main = () => {
     {
       first: botName,
       second: botName,
-      reply: ` You called me?`,
+      reply: `What's up ${providedName}`,
       function: () => {
         console.log();
       },
@@ -351,6 +357,12 @@ const Main = () => {
       function: () => {
         console.log();
       },
+    },
+    {
+      first: "what",
+      second: "name",
+      reply: `${providedName}! `,
+      function: () => {},
     },
   ];
 
@@ -399,7 +411,7 @@ const Main = () => {
     {
       first: "weather",
       second: "weather",
-      reply: `There'll be ${weather.description} in Singapore today, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
+      reply: `The weather description in Singapore today is: ${weather.description}, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
       function: () => {},
     },
     {
@@ -458,6 +470,12 @@ const Main = () => {
       function: () => {
         console.log();
       },
+    },
+    {
+      first: "what",
+      second: "name",
+      reply: `${providedName}! `,
+      function: () => {},
     },
   ];
 
