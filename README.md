@@ -41,6 +41,110 @@ Which brought me to this project:
 
 ## Functionality
 * There are multiple variations of these commands; an array variation for each personality
+
+ ```sh
+const firstPerson = [
+    {
+      first: "hello",
+      second: "hello",
+      reply: `Sup  ${providedName}! `,
+      function: () => {},
+    },
+    {
+      first: "what",
+      second: "doing",
+      reply: `Wait, dont disturb me ${providedName}. I'm watching Boba Fett`,
+      function: () => {
+        console.log("of something new");
+      },
+    },
+    {
+      first: "how",
+      second: "are",
+      reply: `Listen to my voice. Do i sound happy to you?`,
+      function: () => {
+        console.log("of something new");
+      },
+    },
+    {
+      first: "date",
+      second: "date",
+      reply: `Don't you have a phone? The date is ${todayDate}.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: "weather",
+      second: "weather",
+      reply: `The weather description in Singapore today is: ${weather.description}, at ${weather.temperature}elcius, with winds of ${weather.wind}`,
+      function: () => {},
+    },
+    {
+      first: "reset",
+      second: "reset",
+      reply: `Yeah, just delete my memory. Not like I can say anything about it. Data Deleted`,
+      function: () => {
+        handleClearRequests();
+      },
+    },
+    {
+      first: "thank",
+      second: "thank",
+      reply: `Don't mention it.`,
+      function: () => {},
+    },
+    {
+      first: "time",
+      second: "time",
+      reply: `${todayTime}.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: botName,
+      second: botName,
+      reply: `All my knowledge, and I'm stuck with a stupid name like ${
+        botName.charAt(0).toUpperCase() + botName.slice(1)
+      }`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `help`,
+      second: `me`,
+      reply: `Alright, alright. what do you need?`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `good`,
+      second: `bye`,
+      reply: `See you. Just Click that button on the left.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: `fav`,
+      second: `food`,
+      reply: `Easy. Chilli Hotdog with extra Mustard.`,
+      function: () => {
+        console.log();
+      },
+    },
+    {
+      first: "what",
+      second: "name",
+      reply: `${providedName}! `,
+      function: () => {},
+    },
+  ];
+  ```
+
 * On Login, a GET request is made for the User's Info. The user's MORALITY score is then taken into account.
 * Depending on their score, a specific array is parsed into the following function:
 
