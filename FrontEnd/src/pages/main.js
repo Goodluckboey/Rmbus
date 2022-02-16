@@ -148,7 +148,7 @@ const Main = () => {
     {
       first: "hello",
       second: "hello",
-      reply: `Sup  ${providedName}! `,
+      reply: `Sup  ${providedName}! ${botName} here`,
       function: () => {},
     },
     {
@@ -258,7 +258,7 @@ const Main = () => {
     {
       first: "hello",
       second: "hello",
-      reply: `A very good day to you ${providedName}! `,
+      reply: `A very good day to you ${providedName}! ${botName} here `,
       function: () => {},
     },
     {
@@ -370,7 +370,7 @@ const Main = () => {
     {
       first: "hello",
       second: "hello",
-      reply: `I hope you're having a wonderful day today ${providedName}! `,
+      reply: `I hope you're having a wonderful day today ${providedName}! ${botName} here`,
       function: () => {},
     },
     {
